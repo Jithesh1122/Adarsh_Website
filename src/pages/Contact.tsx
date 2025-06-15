@@ -56,13 +56,13 @@ Adarsh Technical Institute Contact Form
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="gradient-primary text-white relative overflow-hidden py-20">
+      {/* Hero Section - Reduced height */}
+      <section className="gradient-primary text-white relative overflow-hidden py-12">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">Contact Us</h1>
-            <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto animate-slide-up" style={{animationDelay: '0.3s'}}>
+            <h1 className="text-4xl md:text-5xl font-light mb-4 animate-fade-in">Contact Us</h1>
+            <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto animate-slide-up" style={{animationDelay: '0.3s'}}>
               Get in touch with us for admissions, course information, or any queries
             </p>
           </div>

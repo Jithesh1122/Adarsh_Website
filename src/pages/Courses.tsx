@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -148,8 +149,8 @@ const Courses = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="gradient-secondary text-white relative overflow-hidden py-20">
+      {/* Hero Section - Reduced height */}
+      <section className="gradient-secondary text-white relative overflow-hidden py-12">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-10 right-10 w-40 h-40 bg-cyan-300 rounded-full blur-3xl animate-float"></div>
@@ -160,8 +161,8 @@ const Courses = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-5xl md:text-6xl font-light mb-6 animate-fade-in">Our Courses</h1>
-              <p className="text-xl md:text-2xl text-cyan-100 animate-slide-up" style={{animationDelay: '0.3s'}}>
+              <h1 className="text-4xl md:text-5xl font-light mb-4 animate-fade-in">Our Courses</h1>
+              <p className="text-lg md:text-xl text-cyan-100 animate-slide-up" style={{animationDelay: '0.3s'}}>
                 Choose from our comprehensive range of technical courses designed to enhance your skills
               </p>
             </div>
