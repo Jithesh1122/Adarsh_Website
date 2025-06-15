@@ -94,6 +94,21 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Make all headings thinner */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-light;
+  }
+
+  /* Override specific heading weights if needed */
+  .font-bold h1,
+  .font-bold h2,
+  .font-bold h3,
+  .font-bold h4,
+  .font-bold h5,
+  .font-bold h6 {
+    @apply font-medium;
+  }
 }
 
 @layer utilities {
