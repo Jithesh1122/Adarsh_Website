@@ -14,6 +14,8 @@ interface Course {
   duration: string;
   level: string;
   category: string;
+  overview?: string;
+  learningOutcomes?: string;
 }
 
 interface CourseModalProps {
@@ -29,7 +31,9 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
     description: '',
     duration: '',
     level: '',
-    category: ''
+    category: '',
+    overview: '',
+    learningOutcomes: ''
   });
 
   useEffect(() => {
@@ -39,7 +43,9 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
         description: course.description,
         duration: course.duration,
         level: course.level,
-        category: course.category
+        category: course.category,
+        overview: course.overview || '',
+        learningOutcomes: course.learningOutcomes || ''
       });
     } else {
       setFormData({
@@ -47,7 +53,9 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
         description: '',
         duration: '',
         level: '',
-        category: ''
+        category: '',
+        overview: '',
+        learningOutcomes: ''
       });
     }
   }, [course, isOpen]);
@@ -66,7 +74,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{course ? 'Edit Course' : 'Add New Course'}</DialogTitle>
           <DialogDescription>
@@ -131,6 +139,28 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
                 <SelectItem value="Advanced">Advanced</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="overview">Course Overview</Label>
+            <Textarea
+              id="overview"
+              value={formData.overview}
+              onChange={(e) => handleChange('overview', e.target.value)}
+              placeholder="Enter detailed course overview"
+              className="min-h-[100px]"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="learningOutcomes">What You'll Learn</Label>
+            <Textarea
+              id="learningOutcomes"
+              value={formData.learningOutcomes}
+              onChange={(e) => handleChange('learningOutcomes', e.target.value)}
+              placeholder="Enter learning outcomes (separate each point with a new line)"
+              className="min-h-[100px]"
+            />
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">

@@ -14,6 +14,8 @@ interface Course {
   duration: string;
   level: string;
   category: string;
+  overview?: string;
+  learningOutcomes?: string;
 }
 
 const CourseDetails = () => {
@@ -36,6 +38,11 @@ const CourseDetails = () => {
       case 'advanced': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
+  };
+
+  const formatTextToList = (text: string) => {
+    if (!text) return [];
+    return text.split('\n').filter(line => line.trim() !== '');
   };
 
   if (!course) {
@@ -111,18 +118,26 @@ const CourseDetails = () => {
               <CardTitle>Course Overview</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 mb-4">
-                This comprehensive course is designed to provide you with practical skills and knowledge
-                in {course.category.toLowerCase()}. Our experienced instructors will guide you through
-                hands-on projects and real-world applications.
-              </p>
-              <ul className="list-disc list-inside text-gray-600 space-y-2">
-                <li>Comprehensive curriculum covering all essential topics</li>
-                <li>Hands-on practical sessions and projects</li>
-                <li>Industry-relevant skills and techniques</li>
-                <li>Expert guidance from experienced instructors</li>
-                <li>Certificate upon successful completion</li>
-              </ul>
+              {course.overview ? (
+                <div className="text-gray-600 whitespace-pre-line">
+                  {course.overview}
+                </div>
+              ) : (
+                <div>
+                  <p className="text-gray-600 mb-4">
+                    This comprehensive course is designed to provide you with practical skills and knowledge
+                    in {course.category.toLowerCase()}. Our experienced instructors will guide you through
+                    hands-on projects and real-world applications.
+                  </p>
+                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                    <li>Comprehensive curriculum covering all essential topics</li>
+                    <li>Hands-on practical sessions and projects</li>
+                    <li>Industry-relevant skills and techniques</li>
+                    <li>Expert guidance from experienced instructors</li>
+                    <li>Certificate upon successful completion</li>
+                  </ul>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -131,14 +146,22 @@ const CourseDetails = () => {
               <CardTitle>What You'll Learn</CardTitle>
             </CardHeader>
             <CardContent>
-              <ul className="list-disc list-inside text-gray-600 space-y-2">
-                <li>Fundamental concepts and principles</li>
-                <li>Practical application of theoretical knowledge</li>
-                <li>Industry best practices and standards</li>
-                <li>Problem-solving techniques</li>
-                <li>Project-based learning approach</li>
-                <li>Career guidance and placement assistance</li>
-              </ul>
+              {course.learningOutcomes ? (
+                <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  {formatTextToList(course.learningOutcomes).map((outcome, index) => (
+                    <li key={index}>{outcome}</li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <li>Fundamental concepts and principles</li>
+                  <li>Practical application of theoretical knowledge</li>
+                  <li>Industry best practices and standards</li>
+                  <li>Problem-solving techniques</li>
+                  <li>Project-based learning approach</li>
+                  <li>Career guidance and placement assistance</li>
+                </ul>
+              )}
             </CardContent>
           </Card>
         </div>
