@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
-import { Lock, Users, BookOpen, Image, MessageSquare } from 'lucide-react';
+import { Lock, BookOpen, Image } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
@@ -110,20 +110,12 @@ const Admin = () => {
       icon: Image,
       action: () => navigate('/gallery'),
       color: 'bg-green-100 text-green-600'
-    },
-    {
-      title: 'View Feedback',
-      description: 'Review student feedback and ratings',
-      icon: MessageSquare,
-      action: () => navigate('/feedback'),
-      color: 'bg-purple-100 text-purple-600'
     }
   ];
 
   // Get statistics from localStorage
   const courses = JSON.parse(localStorage.getItem('courses') || '[]');
   const galleryImages = JSON.parse(localStorage.getItem('galleryImages') || '[]');
-  const feedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
 
   return (
     <Layout>
@@ -141,7 +133,7 @@ const Admin = () => {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardContent className="pt-6">
               <div className="text-center">
@@ -161,25 +153,15 @@ const Admin = () => {
           <Card>
             <CardContent className="pt-6">
               <div className="text-center">
-                <p className="text-3xl font-bold text-purple-600">{feedbacks.length}</p>
-                <p className="text-gray-600">Student Reviews</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <p className="text-3xl font-bold text-orange-600">
-                  {feedbacks.length > 0 ? (feedbacks.reduce((sum: number, f: any) => sum + f.rating, 0) / feedbacks.length).toFixed(1) : '0'}
-                </p>
-                <p className="text-gray-600">Avg Rating</p>
+                <p className="text-3xl font-bold text-orange-600">100%</p>
+                <p className="text-gray-600">Uptime</p>
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Admin Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {adminActions.map((action, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={action.action}>
               <CardHeader>
@@ -211,7 +193,6 @@ const Admin = () => {
                   <li>• Last login: {new Date().toLocaleDateString()}</li>
                   <li>• Total courses: {courses.length}</li>
                   <li>• Total images: {galleryImages.length}</li>
-                  <li>• Total feedback: {feedbacks.length}</li>
                 </ul>
               </div>
               <div>
@@ -219,7 +200,6 @@ const Admin = () => {
                 <ul className="text-sm text-gray-600 space-y-1">
                   <li>• Add/Edit/Delete Courses</li>
                   <li>• Manage Gallery Images</li>
-                  <li>• View Student Feedback</li>
                   <li>• Access Analytics</li>
                 </ul>
               </div>

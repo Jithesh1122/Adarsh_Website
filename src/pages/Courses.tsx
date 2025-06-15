@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import { Trash2, Plus } from 'lucide-react';
+import { Trash2, Plus, Eye } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 import CourseModal from '@/components/CourseModal';
 
 interface Course {
@@ -192,7 +193,7 @@ const Courses = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
+                <div className="space-y-2 mb-4">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Duration:</span>
                     <span className="font-medium">{course.duration}</span>
@@ -206,6 +207,12 @@ const Courses = () => {
                     <Badge className={getLevelColor(course.level)}>{course.level}</Badge>
                   </div>
                 </div>
+                <Link to={`/courses/${course.id}`}>
+                  <Button variant="outline" className="w-full">
+                    <Eye className="w-4 h-4 mr-2" />
+                    View Details
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}
