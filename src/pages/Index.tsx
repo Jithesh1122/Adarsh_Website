@@ -38,7 +38,7 @@ const Index = () => {
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-8 animate-fade-in">
               <span className="text-white">Welcome to</span>{' '}
-              <span className="text-yellow-300">Adarsh Technical Institute</span>
+              <span className="text-cyan-300">Adarsh Technical Institute</span>
             </h1>
             <p className="text-xl md:text-2xl mb-12 text-blue-100 max-w-4xl mx-auto animate-slide-up" style={{animationDelay: '0.3s'}}>
               Your gateway to excellence in technical education. We provide comprehensive 
