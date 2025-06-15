@@ -12,10 +12,32 @@ import { toast } from '@/hooks/use-toast';
 const Contact = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    // Create email content
+    const emailContent = {
+      to: 'jitheshpshetty14@gmail.com',
+      subject: `Contact Form: ${formData.get('subject')}`,
+      body: `
+        Name: ${formData.get('firstName')} ${formData.get('lastName')}
+        Email: ${formData.get('email')}
+        Phone: ${formData.get('phone')}
+        Subject: ${formData.get('subject')}
+        Message: ${formData.get('message')}
+      `
+    };
+
+    // Create mailto link
+    const mailtoLink = `mailto:${emailContent.to}?subject=${encodeURIComponent(emailContent.subject)}&body=${encodeURIComponent(emailContent.body)}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+    
     toast({
-      title: 'Message Sent!',
-      description: 'Thank you for contacting us. We will get back to you soon.',
+      title: 'Email Client Opened!',
+      description: 'Your default email client has been opened with the message details.',
     });
+    
     (e.target as HTMLFormElement).reset();
   };
 
@@ -60,7 +82,7 @@ const Contact = () => {
                   <Mail className="w-5 h-5 text-blue-600" />
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-gray-600">info@adarshtech.edu</p>
+                    <p className="text-gray-600">jitheshpshetty14@gmail.com</p>
                   </div>
                 </div>
 
@@ -105,33 +127,34 @@ const Contact = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" placeholder="Enter your first name" required />
+                    <Input id="firstName" name="firstName" placeholder="Enter your first name" required />
                   </div>
                   <div>
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" placeholder="Enter your last name" required />
+                    <Input id="lastName" name="lastName" placeholder="Enter your last name" required />
                   </div>
                 </div>
 
                 <div>
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="Enter your email" required />
+                  <Input id="email" name="email" type="email" placeholder="Enter your email" required />
                 </div>
 
                 <div>
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="Enter your phone number" required />
+                  <Input id="phone" name="phone" type="tel" placeholder="Enter your phone number" required />
                 </div>
 
                 <div>
                   <Label htmlFor="subject">Subject</Label>
-                  <Input id="subject" placeholder="What is this regarding?" required />
+                  <Input id="subject" name="subject" placeholder="What is this regarding?" required />
                 </div>
 
                 <div>
                   <Label htmlFor="message">Message</Label>
                   <Textarea
                     id="message"
+                    name="message"
                     placeholder="Tell us more about your inquiry..."
                     rows={5}
                     required
@@ -142,23 +165,6 @@ const Contact = () => {
                   Send Message
                 </Button>
               </form>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Map Section */}
-        <div className="mt-12">
-          <Card>
-            <CardHeader>
-              <CardTitle>Visit Our Campus</CardTitle>
-              <CardDescription>
-                Located in the heart of the tech district with easy accessibility
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-                <p className="text-gray-500">Interactive Map Coming Soon</p>
-              </div>
             </CardContent>
           </Card>
         </div>

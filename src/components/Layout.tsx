@@ -20,7 +20,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { path: '/courses', label: 'Courses' },
     { path: '/gallery', label: 'Gallery' },
     { path: '/contact', label: 'Contact' },
-    { path: '/feedback', label: 'Feedback' },
   ];
 
   return (

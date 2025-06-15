@@ -164,18 +164,11 @@ const Index = () => {
             Join thousands of students who have transformed their careers with our 
             comprehensive technical education programs.
           </p>
-          <div className="space-x-4">
-            <Link to="/contact">
-              <Button size="lg" variant="secondary">
-                Get Started Today
-              </Button>
-            </Link>
-            <Link to="/feedback">
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600">
-                Share Feedback
-              </Button>
-            </Link>
-          </div>
+          <Link to="/contact">
+            <Button size="lg" variant="secondary">
+              Get Started Today
+            </Button>
+          </Link>
         </div>
       </section>
     </Layout>
