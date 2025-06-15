@@ -33,7 +33,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <span className="text-white font-bold text-xl">A</span>
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors duration-300">Adarsh Technical Institute</h1>
+                  <h1 className="text-xl font-bold text-blue-700 group-hover:text-blue-800 transition-colors duration-300">Adarsh Technical Institute</h1>
                   <p className="text-xs text-slate-600">Excellence in Technical Education</p>
                 </div>
               </Link>
