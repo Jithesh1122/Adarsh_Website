@@ -95,14 +95,14 @@ const Gallery = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="gradient-secondary text-white relative overflow-hidden py-20">
+      {/* Hero Section - Reduced height */}
+      <section className="gradient-secondary text-white relative overflow-hidden py-12">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">Institute Gallery</h1>
-              <p className="text-xl md:text-2xl text-cyan-100 animate-slide-up" style={{animationDelay: '0.3s'}}>
+              <h1 className="text-4xl md:text-5xl font-light mb-4 animate-fade-in">Institute Gallery</h1>
+              <p className="text-lg md:text-xl text-cyan-100 animate-slide-up" style={{animationDelay: '0.3s'}}>
                 Explore our facilities, classrooms, and learning environment
               </p>
             </div>
@@ -146,7 +146,7 @@ const Gallery = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-xl font-bold mb-2">{image.title}</h3>
+                    <h3 className="text-xl font-light mb-2">{image.title}</h3>
                     <p className="text-sm text-gray-200">{image.description}</p>
                   </div>
                   {isAdmin && (
@@ -172,7 +172,7 @@ const Gallery = () => {
               <div className="w-24 h-24 gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
                 <Plus className="w-12 h-12 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">No images in the gallery yet</h3>
+              <h3 className="text-2xl font-light text-slate-900 mb-4">No images in the gallery yet</h3>
               <p className="text-slate-600 text-lg mb-8">Start building your gallery by adding some images.</p>
               {isAdmin && (
                 <Button 
@@ -200,7 +200,7 @@ const Gallery = () => {
               className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
             />
             <div className="text-white text-center mt-6 animate-slide-up" style={{animationDelay: '0.2s'}}>
-              <h3 className="text-2xl font-bold mb-2">{selectedImage.title}</h3>
+              <h3 className="text-2xl font-light mb-2">{selectedImage.title}</h3>
               <p className="text-cyan-200 text-lg">{selectedImage.description}</p>
             </div>
           </div>
