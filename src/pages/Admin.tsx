@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -46,49 +45,46 @@ const Admin = () => {
     return (
       <Layout>
         <div className="max-w-md mx-auto px-4 py-12">
-          <Card>
+          <Card className="shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
             <CardHeader className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lock className="w-8 h-8 text-blue-600" />
+              <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-pulse">
+                <Lock className="w-10 h-10 text-white" />
               </div>
-              <CardTitle>Admin Login</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl font-bold text-slate-900">Admin Login</CardTitle>
+              <CardDescription className="text-slate-600">
                 Enter your credentials to access the admin panel
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleLogin} className="space-y-4">
+              <form onSubmit={handleLogin} className="space-y-6">
                 <div>
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-slate-700 font-medium">Email</Label>
                   <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
+                    className="mt-2 border-2 border-slate-200 focus:border-blue-500 transition-colors duration-300"
                     required
                   />
                 </div>
                 <div>
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-slate-700 font-medium">Password</Label>
                   <Input
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
+                    className="mt-2 border-2 border-slate-200 focus:border-blue-500 transition-colors duration-300"
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-300">
                   Login
                 </Button>
               </form>
-              <div className="mt-4 text-center text-sm text-gray-600">
-                <p>Demo credentials:</p>
-                <p>Email: jitheshpshetty14@gmail.com</p>
-                <p>Password: 123456</p>
-              </div>
             </CardContent>
           </Card>
         </div>
