@@ -15,29 +15,42 @@ const Contact = () => {
     const formData = new FormData(e.currentTarget);
     
     // Create email content
-    const emailContent = {
-      to: 'jitheshpshetty14@gmail.com',
-      subject: `Contact Form: ${formData.get('subject')}`,
-      body: `
-        Name: ${formData.get('firstName')} ${formData.get('lastName')}
-        Email: ${formData.get('email')}
-        Phone: ${formData.get('phone')}
-        Subject: ${formData.get('subject')}
-        Message: ${formData.get('message')}
-      `
-    };
+    const name = `${formData.get('firstName')} ${formData.get('lastName')}`;
+    const email = formData.get('email');
+    const phone = formData.get('phone');
+    const subject = formData.get('subject');
+    const message = formData.get('message');
+
+    // Create detailed email body
+    const emailBody = `
+Dear Admin,
+
+You have received a new message through the contact form:
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Subject: ${subject}
+
+Message:
+${message}
+
+Best regards,
+Adarsh Technical Institute Contact Form
+    `.trim();
 
     // Create mailto link
-    const mailtoLink = `mailto:${emailContent.to}?subject=${encodeURIComponent(emailContent.subject)}&body=${encodeURIComponent(emailContent.body)}`;
+    const mailtoLink = `mailto:jitheshpshetty14@gmail.com?subject=Contact Form: ${encodeURIComponent(subject as string)}&body=${encodeURIComponent(emailBody)}`;
     
     // Open email client
-    window.location.href = mailtoLink;
+    window.open(mailtoLink, '_blank');
     
     toast({
       title: 'Email Client Opened!',
-      description: 'Your default email client has been opened with the message details.',
+      description: 'Your default email client has been opened. Please send the email from there.',
     });
     
+    // Reset form
     (e.target as HTMLFormElement).reset();
   };
 

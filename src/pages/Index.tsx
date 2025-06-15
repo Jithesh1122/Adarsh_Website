@@ -35,35 +35,26 @@ const Index = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Welcome to Adarsh Technical Institute
-              </h1>
-              <p className="text-xl mb-8 text-blue-100">
-                Your gateway to excellence in technical education. We provide comprehensive 
-                training in computer technology and technical skills to prepare you for a 
-                successful career in the digital world.
-              </p>
-              <div className="space-x-4">
-                <Link to="/courses">
-                  <Button size="lg" variant="secondary">
-                    Explore Courses
-                  </Button>
-                </Link>
-                <Link to="/contact">
-                  <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600 bg-transparent">
-                    Contact Us
-                  </Button>
-                </Link>
-              </div>
-            </div>
-            <div className="relative">
-              <img 
-                src="/lovable-uploads/8eb057ef-6f2b-4535-bb5d-6cdc68154fe2.png" 
-                alt="Adarsh Technical Institute Poster" 
-                className="rounded-lg shadow-2xl w-full max-w-md mx-auto"
-              />
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Welcome to Adarsh Technical Institute
+            </h1>
+            <p className="text-xl mb-8 text-blue-100 max-w-3xl mx-auto">
+              Your gateway to excellence in technical education. We provide comprehensive 
+              training in computer technology and technical skills to prepare you for a 
+              successful career in the digital world.
+            </p>
+            <div className="space-x-4">
+              <Link to="/courses">
+                <Button size="lg" variant="secondary">
+                  Explore Courses
+                </Button>
+              </Link>
+              <Link to="/contact">
+                <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600">
+                  Contact Us
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
