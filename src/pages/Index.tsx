@@ -38,8 +38,8 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10 w-full">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-8 animate-fade-in">
-              Welcome to{' '}
-              <span className="text-cyan-300">
+              <span className="text-white">Welcome to</span>{' '}
+              <span className="bg-gradient-to-r from-yellow-300 via-pink-300 to-cyan-300 bg-clip-text text-transparent">
                 Adarsh Technical Institute
               </span>
             </h1>
