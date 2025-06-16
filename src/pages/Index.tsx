@@ -189,16 +189,16 @@ const Index = () => {
             >
               <CardHeader>
                 <CardTitle className="text-slate-900 group-hover:text-blue-600 transition-colors duration-300 text-2xl">
-                  OTHER COURSES
+                  NTTC COURSES
                 </CardTitle>
                 <CardDescription className="text-slate-600 text-base">
-                  Diverse specialized training programs
+                  Diploma in Nursery Teacher Training Course
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600">
-                  Explore a variety of other professional and vocational courses
-                  designed for specialized skill development.
+                  Designed for aspiring nursery and primary school teachers,
+                  focusing on early childhood education.
                 </p>
               </CardContent>
             </Card>

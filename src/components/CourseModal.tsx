@@ -1,11 +1,22 @@
-
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import React, { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Course {
   id: string;
@@ -20,25 +31,26 @@ interface Course {
 interface CourseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (course: Omit<Course, 'id'>) => void;
+  onSubmit: (course: Omit<Course, "id">) => void;
   course?: Course | null;
 }
 
-const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, course }) => {
+const CourseModal: React.FC<CourseModalProps> = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  course,
+}) => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    duration: '',
-    category: '',
-    overview: '',
-    learningOutcomes: ''
+    title: "",
+    description: "",
+    duration: "",
+    category: "",
+    overview: "",
+    learningOutcomes: "",
   });
 
-  const categories = [
-    'ITI COURSES',
-    'COMPUTER COURSES',
-    'Other Courses'
-  ];
+  const categories = ["ITI COURSES", "COMPUTER COURSES", "NTTC COURSES"];
 
   useEffect(() => {
     if (course) {
@@ -47,40 +59,47 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
         description: course.description,
         duration: course.duration,
         category: course.category,
-        overview: course.overview || '',
-        learningOutcomes: course.learningOutcomes || ''
+        overview: course.overview || "",
+        learningOutcomes: course.learningOutcomes || "",
       });
     } else {
       setFormData({
-        title: '',
-        description: '',
-        duration: '',
-        category: '',
-        overview: '',
-        learningOutcomes: ''
+        title: "",
+        description: "",
+        duration: "",
+        category: "",
+        overview: "",
+        learningOutcomes: "",
       });
     }
   }, [course, isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.title && formData.description && formData.duration && formData.category) {
+    if (
+      formData.title &&
+      formData.description &&
+      formData.duration &&
+      formData.category
+    ) {
       onSubmit(formData);
       onClose();
     }
   };
 
   const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{course ? 'Edit Course' : 'Add New Course'}</DialogTitle>
+          <DialogTitle>{course ? "Edit Course" : "Add New Course"}</DialogTitle>
           <DialogDescription>
-            {course ? 'Update the course information below.' : 'Fill in the details for the new course.'}
+            {course
+              ? "Update the course information below."
+              : "Fill in the details for the new course."}
           </DialogDescription>
         </DialogHeader>
 
@@ -90,7 +109,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
             <Input
               id="title"
               value={formData.title}
-              onChange={(e) => handleChange('title', e.target.value)}
+              onChange={(e) => handleChange("title", e.target.value)}
               placeholder="Enter course title"
               required
             />
@@ -101,7 +120,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
             <Textarea
               id="description"
               value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
+              onChange={(e) => handleChange("description", e.target.value)}
               placeholder="Enter course description"
               required
             />
@@ -112,7 +131,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
             <Input
               id="duration"
               value={formData.duration}
-              onChange={(e) => handleChange('duration', e.target.value)}
+              onChange={(e) => handleChange("duration", e.target.value)}
               placeholder="e.g., 3 months"
               required
             />
@@ -120,7 +139,10 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
 
           <div>
             <Label htmlFor="category">Category</Label>
-            <Select value={formData.category} onValueChange={(value) => handleChange('category', value)}>
+            <Select
+              value={formData.category}
+              onValueChange={(value) => handleChange("category", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
@@ -139,7 +161,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
             <Textarea
               id="overview"
               value={formData.overview}
-              onChange={(e) => handleChange('overview', e.target.value)}
+              onChange={(e) => handleChange("overview", e.target.value)}
               placeholder="Enter detailed course overview"
               className="min-h-[100px]"
             />
@@ -150,7 +172,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
             <Textarea
               id="learningOutcomes"
               value={formData.learningOutcomes}
-              onChange={(e) => handleChange('learningOutcomes', e.target.value)}
+              onChange={(e) => handleChange("learningOutcomes", e.target.value)}
               placeholder="Enter learning outcomes (separate each point with a new line)"
               className="min-h-[100px]"
             />
@@ -161,7 +183,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
               Cancel
             </Button>
             <Button type="submit">
-              {course ? 'Update Course' : 'Add Course'}
+              {course ? "Update Course" : "Add Course"}
             </Button>
           </div>
         </form>

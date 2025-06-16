@@ -1,15 +1,19 @@
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 interface GalleryImage {
-  url: string;
+  imageUrl: string;
   title: string;
-  description: string;
 }
 
 interface GalleryModalProps {
@@ -18,24 +22,40 @@ interface GalleryModalProps {
   onSubmit: (image: GalleryImage) => void;
 }
 
-const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const GalleryModal: React.FC<GalleryModalProps> = ({
+  isOpen,
+  onClose,
+  onSubmit,
+}) => {
   const [formData, setFormData] = useState({
-    url: '',
-    title: '',
-    description: ''
+    imageUrl: "",
+    title: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.url && formData.title && formData.description) {
+    if (formData.imageUrl && formData.title) {
       onSubmit(formData);
-      setFormData({ url: '', title: '', description: '' });
+      setFormData({ imageUrl: "", title: "" });
       onClose();
     }
   };
 
   const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        handleChange("imageUrl", reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      handleChange("imageUrl", "");
+    }
   };
 
   return (
@@ -50,14 +70,21 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, onSubmit }
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="url">Image URL</Label>
+            <Label htmlFor="image">Image File</Label>
             <Input
-              id="url"
-              value={formData.url}
-              onChange={(e) => handleChange('url', e.target.value)}
-              placeholder="Enter image URL"
+              id="image"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
               required
             />
+            {formData.imageUrl && (
+              <img
+                src={formData.imageUrl}
+                alt="Image Preview"
+                className="mt-2 h-32 w-auto object-cover rounded-md"
+              />
+            )}
           </div>
 
           <div>
@@ -65,19 +92,8 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, onSubmit }
             <Input
               id="title"
               value={formData.title}
-              onChange={(e) => handleChange('title', e.target.value)}
+              onChange={(e) => handleChange("title", e.target.value)}
               placeholder="Enter image title"
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
-              placeholder="Enter image description"
               required
             />
           </div>
@@ -86,9 +102,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, onSubmit }
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit">
-              Add Image
-            </Button>
+            <Button type="submit">Add Image</Button>
           </div>
         </form>
       </DialogContent>

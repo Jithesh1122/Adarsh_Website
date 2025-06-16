@@ -33,6 +33,7 @@ const Courses = () => {
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
 
   useEffect(() => {
+    // localStorage.clear(); // TEMPORARY: Clear local storage to force default courses to load
     const savedCourses = localStorage.getItem("courses");
     if (savedCourses) {
       setCourses(JSON.parse(savedCourses));
@@ -136,15 +137,15 @@ const Courses = () => {
           description:
             "Primary Pre-Teacher Training Course for early childhood education.",
           duration: "1 year",
-          category: "Other Courses",
+          category: "NTTC COURSES",
         },
         {
           id: "13",
           title: "DNTTC COURSE",
           description:
-            "Diploma in Nursery Teacher Training Course for nursery education.",
+            "Diploma in Nursery Teacher Training Course for nursery education. This course focuses on foundational teaching skills for early childhood education.",
           duration: "1 year",
-          category: "Other Courses",
+          category: "NTTC COURSES",
         },
       ];
       setCourses(defaultCourses);
@@ -210,7 +211,7 @@ const Courses = () => {
     (course) => course.category === "COMPUTER COURSES"
   );
   const otherCourses = courses.filter(
-    (course) => course.category === "Other Courses"
+    (course) => course.category === "NTTC COURSES"
   );
 
   const CourseCard = ({ course }: { course: Course }) => (
@@ -344,7 +345,7 @@ const Courses = () => {
             <TabsList className="grid w-full grid-cols-3 bg-slate-200 p-1 rounded-lg shadow-inner">
               <TabsTrigger
                 value="iti"
-                className="text-lg py-3 rounded-md transition-all duration-300 
+                className="text-sm md:text-lg py-3 rounded-md transition-all duration-300 
                            data-[state=active]:bg-blue-600 data-[state=active]:text-white 
                            data-[state=active]:shadow-lg data-[state=active]:scale-105 
                            hover:bg-blue-100 hover:text-blue-800"
@@ -353,7 +354,7 @@ const Courses = () => {
               </TabsTrigger>
               <TabsTrigger
                 value="computer"
-                className="text-lg py-3 rounded-md transition-all duration-300 
+                className="text-sm md:text-lg py-3 rounded-md transition-all duration-300 
                            data-[state=active]:bg-blue-600 data-[state=active]:text-white 
                            data-[state=active]:shadow-lg data-[state=active]:scale-105 
                            hover:bg-blue-100 hover:text-blue-800"
@@ -362,22 +363,16 @@ const Courses = () => {
               </TabsTrigger>
               <TabsTrigger
                 value="other"
-                className="text-lg py-3 rounded-md transition-all duration-300 
+                className="text-sm md:text-lg py-3 rounded-md transition-all duration-300 
                            data-[state=active]:bg-blue-600 data-[state=active]:text-white 
                            data-[state=active]:shadow-lg data-[state=active]:scale-105 
                            hover:bg-blue-100 hover:text-blue-800"
               >
-                Other Courses
+                NTTC COURSES
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="iti" className="space-y-8">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold gradient-text mb-4">
-                  ITI COURSES
-                </h2>
-                {/* <p className="text-slate-600 mb-4">Government-approved technical training programs</p> */}
-              </div>
+            <TabsContent value="iti" className="space-y-8 pt-6">
               {itiCourses.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {itiCourses.map((course) => (
@@ -396,13 +391,7 @@ const Courses = () => {
               )}
             </TabsContent>
 
-            <TabsContent value="computer" className="space-y-8">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold gradient-text mb-4">
-                  COMPUTER COURSES
-                </h2>
-                {/* <p className="text-slate-600 mb-4">Specialized computer education and IT training</p> */}
-              </div>
+            <TabsContent value="computer" className="space-y-8 pt-6">
               {computerCourses.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {computerCourses.map((course) => (
@@ -421,13 +410,7 @@ const Courses = () => {
               )}
             </TabsContent>
 
-            <TabsContent value="other" className="space-y-8">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold gradient-text mb-4">
-                  Other Courses
-                </h2>
-                {/* <p className="text-slate-600 mb-4">Additional specialized training programs</p> */}
-              </div>
+            <TabsContent value="other" className="space-y-8 pt-6">
               {otherCourses.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {otherCourses.map((course) => (
@@ -437,10 +420,10 @@ const Courses = () => {
               ) : (
                 <div className="text-center py-12">
                   <p className="text-slate-600 mb-4">
-                    No other courses available yet.
+                    No NTTC courses available yet.
                   </p>
                   {isAdmin && (
-                    <Button onClick={openAddModal}>Add Other Course</Button>
+                    <Button onClick={openAddModal}>Add NTTC Course</Button>
                   )}
                 </div>
               )}
