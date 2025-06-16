@@ -93,7 +93,6 @@ const Contact = () => {
                       'Industry-relevant curriculum',
                       'Hands-on practical training',
                       'Modern computer labs and equipment',
-                      'Placement assistance',
                       'Flexible timings for working professionals',
                       'Affordable course fees'
                     ].map((item, index) => (

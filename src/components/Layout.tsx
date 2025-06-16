@@ -248,11 +248,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
               <p className="text-slate-300">Email: info@adarshtech.edu</p>
-              <p className="text-slate-300">Phone: +91 9876543210</p>
+              <p className="text-slate-300">Phone: +918289986734</p>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-slate-700 text-center text-slate-300">
-            <p>&copy; 2024 Adarsh Technical Institute. All rights reserved.</p>
+            <p>&copy; Adarsh Technical Institute. All rights reserved.</p>
           </div>
         </div>
       </footer>

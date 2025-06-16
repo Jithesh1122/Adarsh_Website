@@ -232,13 +232,13 @@ const Index = () => {
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in">
-            Ready to Start Your Technical Journey?
+            Ready to Start Your Journey With Us?
           </h2>
           <p
             className="text-xl text-blue-100 mb-12 max-w-3xl mx-auto animate-slide-up"
             style={{ animationDelay: "0.3s" }}
           >
-            Join thousands of students who have transformed their careers with
+            Join hundreds of students who have transformed their careers with
             our comprehensive technical education programs.
           </p>
           <div className="animate-scale-in" style={{ animationDelay: "0.6s" }}>
