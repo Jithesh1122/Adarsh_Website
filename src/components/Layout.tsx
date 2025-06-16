@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
-import { LogOut, User, Menu, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { LogOut, User, Menu, X } from "lucide-react";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,18 +13,27 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const { isAdmin, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  useScrollToTop();
 
   const isActivePage = (path: string) => location.pathname === path;
 
   const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/courses', label: 'Courses' },
-    { path: '/gallery', label: 'Gallery' },
-    { path: '/contact', label: 'Contact' },
+    { path: "/", label: "Home" },
+    { path: "/courses", label: "Courses" },
+    { path: "/gallery", label: "Gallery" },
+    { path: "/contact", label: "Contact" },
   ];
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleNavigation = () => {
+    setIsMobileMenuOpen(false);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -32,10 +42,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-4 group">
+              <Link
+                to="/"
+                className="flex items-center space-x-4 group"
+                onClick={handleNavigation}
+              >
                 <div className="relative">
-                  <img 
-                    src="/lovable-uploads/e122db72-ba0c-455a-aa4a-48cf5c6eeaaa.png" 
+                  <img
+                    src="/lovable-uploads/e122db72-ba0c-455a-aa4a-48cf5c6eeaaa.png"
                     alt="Adarsh Technical Institute Logo"
                     className="w-12 h-12 object-contain group-hover:scale-110 transition-all duration-500"
                   />
@@ -44,7 +58,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 bg-clip-text text-transparent group-hover:from-purple-600 group-hover:to-blue-700 transition-all duration-500">
                     Adarsh Technical Institute
                   </h1>
-                  <p className="text-sm text-slate-600 font-medium">Excellence in Technical Education</p>
+                  <p className="text-sm text-slate-600 font-medium">
+                    Excellence in Technical Education
+                  </p>
                 </div>
               </Link>
             </div>
@@ -55,10 +71,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Link
                   key={item.path}
                   to={item.path}
+                  onClick={handleNavigation}
                   className={`relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
                     isActivePage(item.path)
-                      ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/30'
-                      : 'text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 hover:shadow-md'
+                      ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/30"
+                      : "text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 hover:shadow-md"
                   }`}
                 >
                   {item.label}
@@ -73,20 +90,33 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="hidden md:flex items-center space-x-3">
               {isAdmin ? (
                 <div className="flex items-center space-x-3">
-                  <Link to="/admin">
-                    <Button variant="outline" size="sm" className="hover:scale-105 transition-all duration-300 border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white shadow-lg">
+                  <Link to="/admin" onClick={handleNavigation}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="hover:scale-105 transition-all duration-300 border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white shadow-lg"
+                    >
                       <User className="w-4 h-4 mr-2" />
                       Admin Panel
                     </Button>
                   </Link>
-                  <Button variant="outline" size="sm" onClick={logout} className="hover:scale-105 transition-all duration-300 border-2 border-red-500 text-red-600 hover:bg-red-500 hover:text-white shadow-lg">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={logout}
+                    className="hover:scale-105 transition-all duration-300 border-2 border-red-500 text-red-600 hover:bg-red-500 hover:text-white shadow-lg"
+                  >
                     <LogOut className="w-4 h-4 mr-2" />
                     Logout
                   </Button>
                 </div>
               ) : (
-                <Link to="/admin">
-                  <Button variant="outline" size="sm" className="hover:scale-105 transition-all duration-300 border-2 border-gradient-to-r from-blue-500 to-cyan-500 text-blue-600 hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white shadow-lg">
+                <Link to="/admin" onClick={handleNavigation}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="hover:scale-105 transition-all duration-300 border-2 border-gradient-to-r from-blue-500 to-cyan-500 text-blue-600 hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white shadow-lg"
+                  >
                     Admin Login
                   </Button>
                 </Link>
@@ -112,43 +142,63 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
 
         {/* Mobile menu */}
-        <div className={`md:hidden bg-white/95 backdrop-blur-md border-t border-blue-200 transition-all duration-300 ${
-          isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
-        }`}>
+        <div
+          className={`md:hidden bg-white/95 backdrop-blur-md border-t border-blue-200 transition-all duration-300 ${
+            isMobileMenuOpen
+              ? "max-h-96 opacity-100"
+              : "max-h-0 opacity-0 overflow-hidden"
+          }`}
+        >
           <div className="px-4 pt-2 pb-3 space-y-2">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={handleNavigation}
                 className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
                   isActivePage(item.path)
-                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg'
-                    : 'text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50'
+                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
+                    : "text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50"
                 }`}
               >
                 {item.label}
               </Link>
             ))}
-            
+
             {/* Mobile Admin/Login Section */}
             <div className="pt-4 border-t border-slate-200">
               {isAdmin ? (
                 <div className="space-y-2">
-                  <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
+                  <Link to="/admin" onClick={handleNavigation}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full justify-start"
+                    >
                       <User className="w-4 h-4 mr-2" />
                       Admin Panel
                     </Button>
                   </Link>
-                  <Button variant="outline" size="sm" onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="w-full justify-start">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      logout();
+                      handleNavigation();
+                    }}
+                    className="w-full justify-start"
+                  >
                     <LogOut className="w-4 h-4 mr-2" />
                     Logout
                   </Button>
                 </div>
               ) : (
-                <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full justify-start">
+                <Link to="/admin" onClick={handleNavigation}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full justify-start"
+                  >
                     Admin Login
                   </Button>
                 </Link>
@@ -165,15 +215,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <img 
-                  src="/lovable-uploads/e122db72-ba0c-455a-aa4a-48cf5c6eeaaa.png" 
+                <img
+                  src="/lovable-uploads/e122db72-ba0c-455a-aa4a-48cf5c6eeaaa.png"
                   alt="Adarsh Technical Institute Logo"
                   className="w-8 h-8 object-contain"
                 />
-                <h3 className="text-lg font-semibold">Adarsh Technical Institute</h3>
+                <h3 className="text-lg font-semibold">
+                  Adarsh Technical Institute
+                </h3>
               </div>
               <p className="text-slate-300">
-                Providing quality technical education and training for a brighter future.
+                Providing quality technical education and training for a
+                brighter future.
               </p>
             </div>
             <div>
@@ -181,7 +234,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <ul className="space-y-2">
                 {navItems.map((item) => (
                   <li key={item.path}>
-                    <Link to={item.path} className="text-slate-300 hover:text-cyan-300 transition-colors duration-300">
+                    <Link
+                      to={item.path}
+                      onClick={handleNavigation}
+                      className="text-slate-300 hover:text-cyan-300 transition-colors duration-300"
+                    >
                       {item.label}
                     </Link>
                   </li>

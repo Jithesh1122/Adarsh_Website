@@ -12,6 +12,13 @@ import { Link } from "react-router-dom";
 import { BookOpen, Users, Award, Briefcase } from "lucide-react";
 
 const Index = () => {
+  const handleNavigation = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   const features = [
     {
       icon: BookOpen,
@@ -62,7 +69,7 @@ const Index = () => {
               className="flex flex-col sm:flex-row gap-6 justify-center animate-scale-in"
               style={{ animationDelay: "0.6s" }}
             >
-              <Link to="/courses">
+              <Link to="/courses" onClick={handleNavigation}>
                 <Button
                   size="lg"
                   className="gradient-secondary hover:scale-105 transition-all duration-300 text-white font-semibold px-8 py-4 text-lg shadow-xl"
@@ -70,7 +77,7 @@ const Index = () => {
                   Explore Courses
                 </Button>
               </Link>
-              <Link to="/contact">
+              <Link to="/contact" onClick={handleNavigation}>
                 <Button
                   size="lg"
                   variant="outline"
@@ -208,7 +215,7 @@ const Index = () => {
             className="text-center animate-scale-in"
             style={{ animationDelay: "0.7s" }}
           >
-            <Link to="/courses">
+            <Link to="/courses" onClick={handleNavigation}>
               <Button
                 size="lg"
                 className="gradient-primary hover:scale-105 transition-all duration-300 text-white font-semibold px-8 py-4 text-lg shadow-xl"
@@ -235,7 +242,7 @@ const Index = () => {
             our comprehensive technical education programs.
           </p>
           <div className="animate-scale-in" style={{ animationDelay: "0.6s" }}>
-            <Link to="/contact">
+            <Link to="/contact" onClick={handleNavigation}>
               <Button
                 size="lg"
                 className="bg-white text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all duration-300 font-semibold px-8 py-4 text-lg shadow-xl"
