@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Course {
   id: string;
@@ -32,6 +33,12 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
     overview: '',
     learningOutcomes: ''
   });
+
+  const categories = [
+    'ITI COURSES',
+    'COMPUTER COURSES',
+    'Other Courses'
+  ];
 
   useEffect(() => {
     if (course) {
@@ -113,13 +120,18 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
 
           <div>
             <Label htmlFor="category">Category</Label>
-            <Input
-              id="category"
-              value={formData.category}
-              onChange={(e) => handleChange('category', e.target.value)}
-              placeholder="e.g., ITI COURSES, COMPUTER COURSES, Other Courses"
-              required
-            />
+            <Select value={formData.category} onValueChange={(value) => handleChange('category', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>

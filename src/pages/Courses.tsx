@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { Trash2, Plus, Eye, Clock, BookOpen } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
@@ -30,7 +32,7 @@ const Courses = () => {
     if (savedCourses) {
       setCourses(JSON.parse(savedCourses));
     } else {
-      // Updated courses based on your exact requirements
+      // Default courses organized by category
       const defaultCourses: Course[] = [
         // ITI COURSES
         {
@@ -142,7 +144,7 @@ const Courses = () => {
     localStorage.setItem('courses', JSON.stringify(updatedCourses));
     toast({
       title: 'Course Added',
-      description: 'New course has been added successfully.',
+      description: `New course has been added to ${courseData.category}.`,
     });
   };
 
@@ -182,11 +184,71 @@ const Courses = () => {
     setIsModalOpen(true);
   };
 
-  const groupedCourses = {
-    'ITI COURSES': courses.filter(course => course.category === 'ITI COURSES'),
-    'COMPUTER COURSES': courses.filter(course => course.category === 'COMPUTER COURSES'),
-    'Other Courses': courses.filter(course => course.category === 'Other Courses')
-  };
+  // Group courses by category
+  const itiCourses = courses.filter(course => course.category === 'ITI COURSES');
+  const computerCourses = courses.filter(course => course.category === 'COMPUTER COURSES');
+  const otherCourses = courses.filter(course => course.category === 'Other Courses');
+
+  const CourseCard = ({ course }: { course: Course }) => (
+    <Card className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      <CardHeader className="relative z-10">
+        <div className="flex justify-between items-start">
+          <div className="flex-1">
+            <CardTitle className="text-lg mb-2 font-medium group-hover:text-blue-600 transition-colors duration-300">
+              {course.title}
+            </CardTitle>
+            <CardDescription className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">
+              {course.description}
+            </CardDescription>
+          </div>
+          {isAdmin && (
+            <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => openEditModal(course)}
+                className="hover:scale-110 transition-transform duration-200"
+              >
+                Edit
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDeleteCourse(course.id)}
+                className="hover:scale-110 transition-transform duration-200 hover:bg-red-50 hover:border-red-200"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+        </div>
+      </CardHeader>
+      
+      <CardContent className="relative z-10">
+        <div className="space-y-3 mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Clock className="w-4 h-4 text-blue-600" />
+              <span className="text-sm text-slate-600">Duration:</span>
+            </div>
+            <span className="font-medium text-slate-900">{course.duration}</span>
+          </div>
+        </div>
+        
+        <Link to={`/courses/${course.id}`}>
+          <Button 
+            variant="outline" 
+            className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 hover:scale-105"
+          >
+            <Eye className="w-4 h-4 mr-2" />
+            View Details
+          </Button>
+        </Link>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <Layout>
@@ -222,7 +284,7 @@ const Courses = () => {
         </div>
       </section>
 
-      {/* Courses Grid Section */}
+      {/* Courses Tabs Section */}
       <section className="py-20 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 right-10 w-32 h-32 bg-teal-400 rounded-full blur-xl animate-float"></div>
@@ -231,80 +293,49 @@ const Courses = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {Object.entries(groupedCourses).map(([categoryName, categoryCourses]) => (
-            <div key={categoryName} className="mb-16">
-              <h2 className="text-3xl font-bold text-center mb-12 gradient-text">{categoryName}</h2>
+          <Tabs defaultValue="iti" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-12">
+              <TabsTrigger value="iti" className="text-lg py-3">ITI COURSES</TabsTrigger>
+              <TabsTrigger value="computer" className="text-lg py-3">COMPUTER COURSES</TabsTrigger>
+              <TabsTrigger value="other" className="text-lg py-3">Other Courses</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="iti" className="space-y-8">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold gradient-text mb-4">ITI COURSES</h2>
+                <p className="text-slate-600">Industrial Training Institute courses for technical skills</p>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {categoryCourses.map((course, index) => (
-                  <Card 
-                    key={course.id} 
-                    className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-scale-in"
-                    style={{animationDelay: `${0.1 * index}s`}}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    
-                    <CardHeader className="relative z-10">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <CardTitle className="text-xl mb-2 font-medium group-hover:text-blue-600 transition-colors duration-300">{course.title}</CardTitle>
-                          <CardDescription className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{course.description}</CardDescription>
-                        </div>
-                        {isAdmin && (
-                          <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => openEditModal(course)}
-                              className="hover:scale-110 transition-transform duration-200"
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleDeleteCourse(course.id)}
-                              className="hover:scale-110 transition-transform duration-200 hover:bg-red-50 hover:border-red-200"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent className="relative z-10">
-                      <div className="space-y-3 mb-6">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            <Clock className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm text-slate-600">Duration:</span>
-                          </div>
-                          <span className="font-medium text-slate-900">{course.duration}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            <BookOpen className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm text-slate-600">Category:</span>
-                          </div>
-                          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{course.category}</Badge>
-                        </div>
-                      </div>
-                      
-                      <Link to={`/courses/${course.id}`}>
-                        <Button 
-                          variant="outline" 
-                          className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 hover:scale-105"
-                        >
-                          <Eye className="w-4 h-4 mr-2" />
-                          View Details
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
+                {itiCourses.map((course) => (
+                  <CourseCard key={course.id} course={course} />
                 ))}
               </div>
-            </div>
-          ))}
+            </TabsContent>
+
+            <TabsContent value="computer" className="space-y-8">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold gradient-text mb-4">COMPUTER COURSES</h2>
+                <p className="text-slate-600">Computer and information technology courses</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {computerCourses.map((course) => (
+                  <CourseCard key={course.id} course={course} />
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="other" className="space-y-8">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold gradient-text mb-4">Other Courses</h2>
+                <p className="text-slate-600">Additional specialized training programs</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {otherCourses.map((course) => (
+                  <CourseCard key={course.id} course={course} />
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
 
           {courses.length === 0 && (
             <div className="text-center py-20 animate-fade-in">
