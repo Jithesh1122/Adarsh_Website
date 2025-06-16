@@ -1,62 +1,13 @@
 
 import React from 'react';
 import Layout from '@/components/Layout';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
 
 const Contact = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    
-    // Create email content
-    const name = `${formData.get('firstName')} ${formData.get('lastName')}`;
-    const email = formData.get('email');
-    const phone = formData.get('phone');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
-
-    // Create detailed email body
-    const emailBody = `
-Dear Admin,
-
-You have received a new message through the contact form:
-
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Subject: ${subject}
-
-Message:
-${message}
-
-Best regards,
-Adarsh Technical Institute Contact Form
-    `.trim();
-
-    // Create mailto link
-    const mailtoLink = `mailto:jitheshpshetty14@gmail.com?subject=Contact Form: ${encodeURIComponent(subject as string)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Open email client
-    window.open(mailtoLink, '_blank');
-    
-    toast({
-      title: 'Email Client Opened!',
-      description: 'Your default email client has been opened. Please send the email from there.',
-    });
-    
-    // Reset form
-    (e.target as HTMLFormElement).reset();
-  };
-
   return (
     <Layout>
-      {/* Hero Section - Reduced height */}
+      {/* Hero Section */}
       <section className="gradient-primary text-white relative overflow-hidden py-12">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -156,95 +107,58 @@ Adarsh Technical Institute Contact Form
               </Card>
             </div>
 
-            {/* Contact Form */}
-            <Card className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-0 bg-white/80 backdrop-blur-sm animate-scale-in" style={{animationDelay: '0.4s'}}>
-              <CardHeader>
-                <CardTitle className="text-2xl gradient-text">Send us a Message</CardTitle>
-                <CardDescription className="text-lg">
-                  Fill out the form below and we'll get back to you as soon as possible
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName" className="text-slate-700 font-medium">First Name</Label>
-                      <Input 
-                        id="firstName" 
-                        name="firstName" 
-                        placeholder="Enter your first name" 
-                        required 
-                        className="border-2 border-blue-100 focus:border-blue-500 transition-colors duration-300"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName" className="text-slate-700 font-medium">Last Name</Label>
-                      <Input 
-                        id="lastName" 
-                        name="lastName" 
-                        placeholder="Enter your last name" 
-                        required 
-                        className="border-2 border-blue-100 focus:border-blue-500 transition-colors duration-300"
-                      />
-                    </div>
+            {/* Admission Process */}
+            <div className="space-y-6">
+              <Card className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-0 bg-white/80 backdrop-blur-sm animate-scale-in" style={{animationDelay: '0.4s'}}>
+                <CardHeader>
+                  <CardTitle className="text-2xl gradient-text">Admission Process</CardTitle>
+                  <CardDescription className="text-lg">
+                    Simple steps to join our institute
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {[
+                      'Visit our institute or call us for course information',
+                      'Submit the application form with required documents',
+                      'Attend counseling session with our academic advisors',
+                      'Complete the admission formalities and fee payment',
+                      'Begin your journey towards technical excellence'
+                    ].map((step, index) => (
+                      <div key={index} className="flex items-start space-x-4 p-3 rounded-lg hover:bg-blue-50 transition-colors duration-300">
+                        <div className="w-8 h-8 gradient-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                          {index + 1}
+                        </div>
+                        <p className="text-slate-700 pt-1">{step}</p>
+                      </div>
+                    ))}
                   </div>
+                </CardContent>
+              </Card>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-slate-700 font-medium">Email</Label>
-                    <Input 
-                      id="email" 
-                      name="email" 
-                      type="email" 
-                      placeholder="Enter your email" 
-                      required 
-                      className="border-2 border-blue-100 focus:border-blue-500 transition-colors duration-300"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-slate-700 font-medium">Phone Number</Label>
-                    <Input 
-                      id="phone" 
-                      name="phone" 
-                      type="tel" 
-                      placeholder="Enter your phone number" 
-                      required 
-                      className="border-2 border-blue-100 focus:border-blue-500 transition-colors duration-300"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="subject" className="text-slate-700 font-medium">Subject</Label>
-                    <Input 
-                      id="subject" 
-                      name="subject" 
-                      placeholder="What is this regarding?" 
-                      required 
-                      className="border-2 border-blue-100 focus:border-blue-500 transition-colors duration-300"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message" className="text-slate-700 font-medium">Message</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      placeholder="Tell us more about your inquiry..."
-                      rows={5}
-                      required
-                      className="border-2 border-blue-100 focus:border-blue-500 transition-colors duration-300 resize-none"
-                    />
-                  </div>
-
-                  <Button 
-                    type="submit" 
-                    className="w-full gradient-primary hover:scale-105 transition-all duration-300 text-white font-semibold py-3 text-lg shadow-xl"
-                  >
-                    Send Message
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+              <Card className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-0 bg-white/80 backdrop-blur-sm animate-scale-in" style={{animationDelay: '0.6s'}}>
+                <CardHeader>
+                  <CardTitle className="text-xl gradient-text">Required Documents</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-slate-600">
+                    {[
+                      'Educational certificates (10th, 12th, or equivalent)',
+                      'Identity proof (Aadhaar, Passport, etc.)',
+                      'Address proof',
+                      'Passport size photographs',
+                      'Caste certificate (if applicable)',
+                      'Income certificate (if applicable)'
+                    ].map((doc, index) => (
+                      <li key={index} className="flex items-center space-x-3">
+                        <div className="w-2 h-2 gradient-secondary rounded-full"></div>
+                        <span>{doc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </section>

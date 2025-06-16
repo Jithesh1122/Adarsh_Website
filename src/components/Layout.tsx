@@ -29,10 +29,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-4 group">
                 <div className="relative">
-                  <div className="w-12 h-12 gradient-primary rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-2xl animate-pulse-glow">
-                    <span className="text-white font-bold text-2xl">A</span>
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-cyan-400 rounded-full animate-bounce opacity-80"></div>
+                  <img 
+                    src="/lovable-uploads/e122db72-ba0c-455a-aa4a-48cf5c6eeaaa.png" 
+                    alt="Adarsh Technical Institute Logo"
+                    className="w-12 h-12 object-contain group-hover:scale-110 transition-all duration-500"
+                  />
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 bg-clip-text text-transparent group-hover:from-purple-600 group-hover:to-blue-700 transition-all duration-500">
@@ -114,9 +115,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">A</span>
-                </div>
+                <img 
+                  src="/lovable-uploads/e122db72-ba0c-455a-aa4a-48cf5c6eeaaa.png" 
+                  alt="Adarsh Technical Institute Logo"
+                  className="w-8 h-8 object-contain"
+                />
                 <h3 className="text-lg font-semibold">Adarsh Technical Institute</h3>
               </div>
               <p className="text-slate-300">

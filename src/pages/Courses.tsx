@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import { Trash2, Plus, Eye, Clock, BarChart3, BookOpen } from 'lucide-react';
+import { Trash2, Plus, Eye, Clock, BookOpen } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
 import CourseModal from '@/components/CourseModal';
@@ -15,7 +14,6 @@ interface Course {
   title: string;
   description: string;
   duration: string;
-  level: string;
   category: string;
   overview?: string;
   learningOutcomes?: string;
@@ -32,55 +30,101 @@ const Courses = () => {
     if (savedCourses) {
       setCourses(JSON.parse(savedCourses));
     } else {
-      // Default courses based on the poster
+      // Updated default courses based on the requirements
       const defaultCourses: Course[] = [
+        // ITI COURSES
         {
           id: '1',
-          title: 'Computer Fundamentals',
-          description: 'Learn basic computer operations, file management, and essential applications.',
-          duration: '2 months',
-          level: 'Beginner',
-          category: 'Basic Computer'
+          title: 'Refrigeration and AC Engineering',
+          description: 'Comprehensive training in refrigeration and air conditioning systems.',
+          duration: '1 year',
+          category: 'ITI COURSES'
         },
         {
           id: '2',
-          title: 'MS Office Suite',
-          description: 'Master Microsoft Word, Excel, PowerPoint, and Outlook for professional use.',
-          duration: '1.5 months',
-          level: 'Beginner',
-          category: 'Office Applications'
+          title: 'Electrical Engineering',
+          description: 'Fundamental and advanced electrical engineering concepts.',
+          duration: '1 year',
+          category: 'ITI COURSES'
         },
         {
           id: '3',
-          title: 'Programming in C',
-          description: 'Learn the fundamentals of programming with C language.',
-          duration: '3 months',
-          level: 'Intermediate',
-          category: 'Programming'
+          title: 'Automobile Technician',
+          description: 'Complete automobile maintenance and repair training.',
+          duration: '1 year',
+          category: 'ITI COURSES'
         },
         {
           id: '4',
-          title: 'Web Development (HTML/CSS/JS)',
-          description: 'Build modern websites using HTML, CSS, and JavaScript.',
-          duration: '4 months',
-          level: 'Intermediate',
-          category: 'Web Development'
+          title: 'Computer Hardware',
+          description: 'Hardware installation, maintenance, and troubleshooting.',
+          duration: '1 year',
+          category: 'ITI COURSES'
         },
+        // COMPUTER COURSES
         {
           id: '5',
-          title: 'Database Management (SQL)',
-          description: 'Learn database design and management with SQL.',
-          duration: '2.5 months',
-          level: 'Intermediate',
-          category: 'Database'
+          title: 'PGDCA (Post Graduate Diploma in Computer Application)',
+          description: 'Advanced computer applications for graduates.',
+          duration: '1 year',
+          category: 'COMPUTER COURSES'
         },
         {
           id: '6',
-          title: 'Graphic Design',
-          description: 'Master Adobe Photoshop and design principles.',
+          title: 'DCTT (Diploma in Computer Teacher Training)',
+          description: 'Training for computer education teachers.',
+          duration: '6 months',
+          category: 'COMPUTER COURSES'
+        },
+        {
+          id: '7',
+          title: 'PGDIT (Post Graduate Diploma in Information Technology)',
+          description: 'Advanced IT concepts and applications.',
+          duration: '1 year',
+          category: 'COMPUTER COURSES'
+        },
+        {
+          id: '8',
+          title: 'DCA (Diploma in Computer Application)',
+          description: 'Basic to intermediate computer applications.',
+          duration: '6 months',
+          category: 'COMPUTER COURSES'
+        },
+        {
+          id: '9',
+          title: 'DTP (Diploma in Desktop Publishing)',
+          description: 'Professional desktop publishing and design.',
           duration: '3 months',
-          level: 'Beginner',
-          category: 'Design'
+          category: 'COMPUTER COURSES'
+        },
+        {
+          id: '10',
+          title: 'DOA (Diploma in Office Automation)',
+          description: 'Office productivity and automation tools.',
+          duration: '3 months',
+          category: 'COMPUTER COURSES'
+        },
+        {
+          id: '11',
+          title: 'Diploma in CAD',
+          description: 'Computer-aided design and drafting.',
+          duration: '6 months',
+          category: 'COMPUTER COURSES'
+        },
+        // Other Courses
+        {
+          id: '12',
+          title: 'PPTTC Course',
+          description: 'Primary Pre-Teacher Training Course.',
+          duration: '1 year',
+          category: 'Other Courses'
+        },
+        {
+          id: '13',
+          title: 'DNTTC Course',
+          description: 'Diploma in Nursery Teacher Training Course.',
+          duration: '1 year',
+          category: 'Other Courses'
         }
       ];
       setCourses(defaultCourses);
@@ -147,9 +191,15 @@ const Courses = () => {
     }
   };
 
+  const groupedCourses = {
+    'ITI COURSES': courses.filter(course => course.category === 'ITI COURSES'),
+    'COMPUTER COURSES': courses.filter(course => course.category === 'COMPUTER COURSES'),
+    'Other Courses': courses.filter(course => course.category === 'Other Courses')
+  };
+
   return (
     <Layout>
-      {/* Hero Section - Reduced height */}
+      {/* Hero Section */}
       <section className="gradient-secondary text-white relative overflow-hidden py-12">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute inset-0 opacity-20">
@@ -190,82 +240,80 @@ const Courses = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {courses.map((course, index) => (
-              <Card 
-                key={course.id} 
-                className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-scale-in"
-                style={{animationDelay: `${0.1 * index}s`}}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                <CardHeader className="relative z-10">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <CardTitle className="text-xl mb-2 font-medium group-hover:text-blue-600 transition-colors duration-300">{course.title}</CardTitle>
-                      <CardDescription className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{course.description}</CardDescription>
-                    </div>
-                    {isAdmin && (
-                      <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => openEditModal(course)}
-                          className="hover:scale-110 transition-transform duration-200"
+          {Object.entries(groupedCourses).map(([categoryName, categoryCourses]) => (
+            <div key={categoryName} className="mb-16">
+              <h2 className="text-3xl font-bold text-center mb-12 gradient-text">{categoryName}</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {categoryCourses.map((course, index) => (
+                  <Card 
+                    key={course.id} 
+                    className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-scale-in"
+                    style={{animationDelay: `${0.1 * index}s`}}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <CardHeader className="relative z-10">
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <CardTitle className="text-xl mb-2 font-medium group-hover:text-blue-600 transition-colors duration-300">{course.title}</CardTitle>
+                          <CardDescription className="text-slate-600 group-hover:text-slate-700 transition-colors duration-300">{course.description}</CardDescription>
+                        </div>
+                        {isAdmin && (
+                          <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => openEditModal(course)}
+                              className="hover:scale-110 transition-transform duration-200"
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDeleteCourse(course.id)}
+                              className="hover:scale-110 transition-transform duration-200 hover:bg-red-50 hover:border-red-200"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </CardHeader>
+                    
+                    <CardContent className="relative z-10">
+                      <div className="space-y-3 mb-6">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <Clock className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm text-slate-600">Duration:</span>
+                          </div>
+                          <span className="font-medium text-slate-900">{course.duration}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <BookOpen className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm text-slate-600">Category:</span>
+                          </div>
+                          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{course.category}</Badge>
+                        </div>
+                      </div>
+                      
+                      <Link to={`/courses/${course.id}`}>
+                        <Button 
+                          variant="outline" 
+                          className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 hover:scale-105"
                         >
-                          Edit
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Details
                         </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDeleteCourse(course.id)}
-                          className="hover:scale-110 transition-transform duration-200 hover:bg-red-50 hover:border-red-200"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </CardHeader>
-                
-                <CardContent className="relative z-10">
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <Clock className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm text-slate-600">Duration:</span>
-                      </div>
-                      <span className="font-medium text-slate-900">{course.duration}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <BookOpen className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm text-slate-600">Category:</span>
-                      </div>
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{course.category}</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <BarChart3 className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm text-slate-600">Level:</span>
-                      </div>
-                      <Badge className={getLevelColor(course.level)}>{course.level}</Badge>
-                    </div>
-                  </div>
-                  
-                  <Link to={`/courses/${course.id}`}>
-                    <Button 
-                      variant="outline" 
-                      className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 hover:scale-105"
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
-                      View Details
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ))}
 
           {courses.length === 0 && (
             <div className="text-center py-20 animate-fade-in">
