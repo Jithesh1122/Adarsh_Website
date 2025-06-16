@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, Menu, X } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +11,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const { isAdmin, logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isActivePage = (path: string) => location.pathname === path;
 
@@ -20,6 +21,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { path: '/gallery', label: 'Gallery' },
     { path: '/contact', label: 'Contact' },
   ];
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -44,6 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </Link>
             </div>
 
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-2">
               {navItems.map((item) => (
                 <Link
@@ -63,7 +69,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               ))}
             </div>
 
-            <div className="flex items-center space-x-3">
+            {/* Desktop Admin/Login Section */}
+            <div className="hidden md:flex items-center space-x-3">
               {isAdmin ? (
                 <div className="flex items-center space-x-3">
                   <Link to="/admin">
@@ -85,16 +92,35 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </Link>
               )}
             </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleMobileMenu}
+                className="p-2"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </Button>
+            </div>
           </div>
         </div>
 
         {/* Mobile menu */}
-        <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-blue-200">
+        <div className={`md:hidden bg-white/95 backdrop-blur-md border-t border-blue-200 transition-all duration-300 ${
+          isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+        }`}>
           <div className="px-4 pt-2 pb-3 space-y-2">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
                   isActivePage(item.path)
                     ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg'
@@ -104,6 +130,30 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {item.label}
               </Link>
             ))}
+            
+            {/* Mobile Admin/Login Section */}
+            <div className="pt-4 border-t border-slate-200">
+              {isAdmin ? (
+                <div className="space-y-2">
+                  <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full justify-start">
+                      <User className="w-4 h-4 mr-2" />
+                      Admin Panel
+                    </Button>
+                  </Link>
+                  <Button variant="outline" size="sm" onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="w-full justify-start">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" size="sm" className="w-full justify-start">
+                    Admin Login
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </nav>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -305,11 +304,20 @@ const Courses = () => {
                 <h2 className="text-3xl font-bold gradient-text mb-4">ITI COURSES</h2>
                 <p className="text-slate-600">Industrial Training Institute courses for technical skills</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {itiCourses.map((course) => (
-                  <CourseCard key={course.id} course={course} />
-                ))}
-              </div>
+              {itiCourses.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {itiCourses.map((course) => (
+                    <CourseCard key={course.id} course={course} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-slate-600 mb-4">No ITI courses available yet.</p>
+                  {isAdmin && (
+                    <Button onClick={openAddModal}>Add ITI Course</Button>
+                  )}
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="computer" className="space-y-8">
@@ -317,11 +325,20 @@ const Courses = () => {
                 <h2 className="text-3xl font-bold gradient-text mb-4">COMPUTER COURSES</h2>
                 <p className="text-slate-600">Computer and information technology courses</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {computerCourses.map((course) => (
-                  <CourseCard key={course.id} course={course} />
-                ))}
-              </div>
+              {computerCourses.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {computerCourses.map((course) => (
+                    <CourseCard key={course.id} course={course} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-slate-600 mb-4">No computer courses available yet.</p>
+                  {isAdmin && (
+                    <Button onClick={openAddModal}>Add Computer Course</Button>
+                  )}
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="other" className="space-y-8">
@@ -329,31 +346,22 @@ const Courses = () => {
                 <h2 className="text-3xl font-bold gradient-text mb-4">Other Courses</h2>
                 <p className="text-slate-600">Additional specialized training programs</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {otherCourses.map((course) => (
-                  <CourseCard key={course.id} course={course} />
-                ))}
-              </div>
+              {otherCourses.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {otherCourses.map((course) => (
+                    <CourseCard key={course.id} course={course} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-slate-600 mb-4">No other courses available yet.</p>
+                  {isAdmin && (
+                    <Button onClick={openAddModal}>Add Other Course</Button>
+                  )}
+                </div>
+              )}
             </TabsContent>
           </Tabs>
-
-          {courses.length === 0 && (
-            <div className="text-center py-20 animate-fade-in">
-              <div className="w-24 h-24 gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <BookOpen className="w-12 h-12 text-white" />
-              </div>
-              <h3 className="text-3xl font-light text-slate-900 mb-4">No courses available yet</h3>
-              <p className="text-slate-600 text-lg mb-8">Start building your course catalog by adding some courses.</p>
-              {isAdmin && (
-                <Button 
-                  onClick={openAddModal}
-                  className="gradient-primary hover:scale-105 transition-all duration-300 text-white font-semibold px-8 py-3 text-lg shadow-xl"
-                >
-                  Add Your First Course
-                </Button>
-              )}
-            </div>
-          )}
         </div>
       </section>
 
