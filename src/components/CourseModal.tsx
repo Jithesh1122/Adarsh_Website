@@ -4,7 +4,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 
 interface Course {
@@ -12,7 +11,6 @@ interface Course {
   title: string;
   description: string;
   duration: string;
-  level: string;
   category: string;
   overview?: string;
   learningOutcomes?: string;
@@ -30,7 +28,6 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
     title: '',
     description: '',
     duration: '',
-    level: '',
     category: '',
     overview: '',
     learningOutcomes: ''
@@ -42,7 +39,6 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
         title: course.title,
         description: course.description,
         duration: course.duration,
-        level: course.level,
         category: course.category,
         overview: course.overview || '',
         learningOutcomes: course.learningOutcomes || ''
@@ -52,7 +48,6 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
         title: '',
         description: '',
         duration: '',
-        level: '',
         category: '',
         overview: '',
         learningOutcomes: ''
@@ -62,7 +57,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.title && formData.description && formData.duration && formData.level && formData.category) {
+    if (formData.title && formData.description && formData.duration && formData.category) {
       onSubmit(formData);
       onClose();
     }
@@ -122,23 +117,9 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, onSubmit, co
               id="category"
               value={formData.category}
               onChange={(e) => handleChange('category', e.target.value)}
-              placeholder="e.g., Programming, Design"
+              placeholder="e.g., ITI COURSES, COMPUTER COURSES, Other Courses"
               required
             />
-          </div>
-
-          <div>
-            <Label htmlFor="level">Level</Label>
-            <Select value={formData.level} onValueChange={(value) => handleChange('level', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select level" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Beginner">Beginner</SelectItem>
-                <SelectItem value="Intermediate">Intermediate</SelectItem>
-                <SelectItem value="Advanced">Advanced</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div>
