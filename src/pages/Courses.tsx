@@ -30,99 +30,99 @@ const Courses = () => {
     if (savedCourses) {
       setCourses(JSON.parse(savedCourses));
     } else {
-      // Updated default courses based on the requirements
+      // Updated courses based on your exact requirements
       const defaultCourses: Course[] = [
         // ITI COURSES
         {
           id: '1',
-          title: 'Refrigeration and AC Engineering',
-          description: 'Comprehensive training in refrigeration and air conditioning systems.',
+          title: 'REFRIGERATION AND AC ENGINEERING',
+          description: 'Comprehensive training in refrigeration and air conditioning systems installation, maintenance, and repair.',
           duration: '1 year',
           category: 'ITI COURSES'
         },
         {
           id: '2',
-          title: 'Electrical Engineering',
-          description: 'Fundamental and advanced electrical engineering concepts.',
+          title: 'ELECTRICAL ENGINEERING',
+          description: 'Complete electrical engineering course covering wiring, motor control, and electrical systems.',
           duration: '1 year',
           category: 'ITI COURSES'
         },
         {
           id: '3',
-          title: 'Automobile Technician',
-          description: 'Complete automobile maintenance and repair training.',
+          title: 'AUTOMOBILE TECHNICIAN',
+          description: 'Hands-on training in automobile maintenance, repair, and diagnostics.',
           duration: '1 year',
           category: 'ITI COURSES'
         },
         {
           id: '4',
-          title: 'Computer Hardware',
-          description: 'Hardware installation, maintenance, and troubleshooting.',
+          title: 'COMPUTER HARDWARE',
+          description: 'Computer hardware installation, troubleshooting, and maintenance training.',
           duration: '1 year',
           category: 'ITI COURSES'
         },
         // COMPUTER COURSES
         {
           id: '5',
-          title: 'PGDCA (Post Graduate Diploma in Computer Application)',
-          description: 'Advanced computer applications for graduates.',
+          title: 'PGDCA (POST GRADUATE DIPLOMA IN COMPUTER APPLICATION)',
+          description: 'Advanced computer applications course for graduates seeking specialization in IT.',
           duration: '1 year',
           category: 'COMPUTER COURSES'
         },
         {
           id: '6',
-          title: 'DCTT (Diploma in Computer Teacher Training)',
-          description: 'Training for computer education teachers.',
+          title: 'DCTT (DIPLOMA IN COMPUTER TEACHER TRAINING)',
+          description: 'Specialized training for aspiring computer teachers and educators.',
           duration: '6 months',
           category: 'COMPUTER COURSES'
         },
         {
           id: '7',
-          title: 'PGDIT (Post Graduate Diploma in Information Technology)',
-          description: 'Advanced IT concepts and applications.',
+          title: 'PGDIT (POST GRADUATE DIPLOMA IN INFORMATION TECHNOLOGY)',
+          description: 'Advanced information technology concepts and practical applications.',
           duration: '1 year',
           category: 'COMPUTER COURSES'
         },
         {
           id: '8',
-          title: 'DCA (Diploma in Computer Application)',
-          description: 'Basic to intermediate computer applications.',
+          title: 'DCA (DIPLOMA IN COMPUTER APPLICATION)',
+          description: 'Fundamental computer applications and office productivity tools.',
           duration: '6 months',
           category: 'COMPUTER COURSES'
         },
         {
           id: '9',
-          title: 'DTP (Diploma in Desktop Publishing)',
-          description: 'Professional desktop publishing and design.',
+          title: 'DTP (DIPLOMA IN DESKTOP PUBLISHING)',
+          description: 'Professional desktop publishing and graphic design training.',
           duration: '3 months',
           category: 'COMPUTER COURSES'
         },
         {
           id: '10',
-          title: 'DOA (Diploma in Office Automation)',
-          description: 'Office productivity and automation tools.',
+          title: 'DOA (DIPLOMA IN OFFICE AUTOMATION)',
+          description: 'Office automation tools and business productivity software training.',
           duration: '3 months',
           category: 'COMPUTER COURSES'
         },
         {
           id: '11',
-          title: 'Diploma in CAD',
-          description: 'Computer-aided design and drafting.',
+          title: 'DIPLOMA IN CAD',
+          description: 'Computer-aided design and drafting using professional CAD software.',
           duration: '6 months',
           category: 'COMPUTER COURSES'
         },
         // Other Courses
         {
           id: '12',
-          title: 'PPTTC Course',
-          description: 'Primary Pre-Teacher Training Course.',
+          title: 'PPTTC COURSE',
+          description: 'Primary Pre-Teacher Training Course for early childhood education.',
           duration: '1 year',
           category: 'Other Courses'
         },
         {
           id: '13',
-          title: 'DNTTC Course',
-          description: 'Diploma in Nursery Teacher Training Course.',
+          title: 'DNTTC COURSE',
+          description: 'Diploma in Nursery Teacher Training Course for nursery education.',
           duration: '1 year',
           category: 'Other Courses'
         }
