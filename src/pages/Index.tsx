@@ -10,6 +10,14 @@ import {
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { BookOpen, Users, Award, Briefcase } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const Index = () => {
   const handleNavigation = () => {
@@ -18,6 +26,11 @@ const Index = () => {
       behavior: "smooth",
     });
   };
+
+  const carouselImages = [
+    "/images/carousel_image_1.jpg",
+    "/images/carousel_image_2.jpg",
+  ];
 
   const features = [
     {
@@ -51,20 +64,40 @@ const Index = () => {
       {/* Hero Section */}
       <section className="gradient-primary text-white relative overflow-hidden min-h-screen flex items-center">
         <div className="absolute inset-0 bg-black/10"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10 w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10 w-full">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-8 animate-fade-in">
               <span className="text-white">Welcome to</span>{" "}
               <span className="text-cyan-300">Adarsh Technical Institute</span>
             </h1>
-            <p
-              className="text-xl md:text-2xl mb-12 text-blue-100 max-w-4xl mx-auto animate-slide-up"
-              style={{ animationDelay: "0.3s" }}
-            >
-              Your gateway to excellence in technical education. We provide
-              comprehensive training in computer technology and technical skills
-              to prepare you for a successful career in the digital world.
-            </p>
+
+            <div className="w-full max-w-4xl mx-auto mb-8">
+              <Carousel
+                className="w-full"
+                opts={{
+                  loop: true,
+                }}
+                plugins={[Autoplay({ delay: 3000 })]}
+              >
+                <CarouselContent>
+                  {carouselImages.map((image, index) => (
+                    <CarouselItem
+                      key={index}
+                      className="flex justify-center items-center"
+                    >
+                      <img
+                        src={image}
+                        alt={`Carousel Image ${index + 1}`}
+                        className="rounded-lg shadow-lg max-h-96 object-contain"
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-4" />
+                <CarouselNext className="absolute right-4" />
+              </Carousel>
+            </div>
+
             <div
               className="flex flex-col sm:flex-row gap-6 justify-center animate-scale-in"
               style={{ animationDelay: "0.6s" }}
@@ -102,9 +135,11 @@ const Index = () => {
               className="text-xl text-slate-600 max-w-3xl mx-auto animate-slide-up"
               style={{ animationDelay: "0.2s" }}
             >
-              Established with a vision to provide quality technical education,
-              we have been shaping careers and building futures for aspiring
-              technical professionals.
+              Adarsh Technical Institute - Uppala, Ideal Technical Institute - Kasaragod are the reputed educational institutions in Kasaragod District. This Institutions are controlled by the Director of Technical Education Govt. of Kerala.
+
+Our Institutions has been providing Technical and Computer training to the students of this region for the last 20 years. We are Pleased to say that We received tremendous response from this region in this regard ever since we started our Institution. It is our pleasure to say that our Institutions played a major role in the development of the Society by giving Technical and computer Education. Till now more than 1,00,000 Students have successfully completed our courses. Computer and Technical education is inevitable in the Present age and we assure Prospective job opportunities for the aspirants through our courses.
+
+
             </p>
           </div>
 
