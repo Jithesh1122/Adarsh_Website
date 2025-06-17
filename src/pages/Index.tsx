@@ -89,7 +89,7 @@ const Index = () => {
 
             <div className="w-full max-w-4xl mx-auto mb-8">
               <Carousel
-                className="w-full"
+                className="w-full relative group"
                 opts={{
                   loop: true,
                 }}
@@ -110,19 +110,21 @@ const Index = () => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {Array.from({ length: count }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => api?.scrollTo(index)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        index + 1 === current
+                          ? "bg-white scale-125"
+                          : "bg-white/50 hover:bg-white/80"
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
               </Carousel>
-              <div className="flex justify-center gap-2 mt-4">
-                {Array.from({ length: count }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => api?.scrollTo(index)}
-                    className={`w-3 h-3 rounded-full ${
-                      index + 1 === current ? "bg-blue-600" : "bg-gray-400"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
             </div>
 
             <div
@@ -173,11 +175,21 @@ const Index = () => {
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className="text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-0 bg-white backdrop-blur-sm animate-scale-in group"
+                className="text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-0 bg-white backdrop-blur-sm animate-scale-in group shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
                 style={{ animationDelay: `${0.2 * index}s` }}
               >
                 <CardHeader className="pb-4">
-                  <div className="w-20 h-20 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <div
+                    className={`w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg ${
+                      index === 0
+                        ? "bg-gradient-to-br from-purple-500 to-pink-500"
+                        : index === 1
+                        ? "bg-gradient-to-br from-blue-500 to-cyan-500"
+                        : index === 2
+                        ? "bg-gradient-to-br from-green-500 to-emerald-500"
+                        : "bg-gradient-to-br from-orange-500 to-red-500"
+                    }`}
+                  >
                     <feature.icon className="w-10 h-10 text-white" />
                   </div>
                   <CardTitle className="text-xl text-slate-900 group-hover:text-blue-600 transition-colors duration-300">
@@ -212,7 +224,7 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             <Card
-              className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-0 bg-white backdrop-blur-sm animate-scale-in group"
+              className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-0 backdrop-blur-sm animate-scale-in group shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-gradient-to-br from-blue-50 to-indigo-50"
               style={{ animationDelay: "0.1s" }}
             >
               <CardHeader>
@@ -232,7 +244,7 @@ const Index = () => {
             </Card>
 
             <Card
-              className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-0 bg-white backdrop-blur-sm animate-scale-in group"
+              className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-0 backdrop-blur-sm animate-scale-in group shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-gradient-to-br from-purple-50 to-pink-50"
               style={{ animationDelay: "0.3s" }}
             >
               <CardHeader>
@@ -252,7 +264,7 @@ const Index = () => {
             </Card>
 
             <Card
-              className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-0 bg-white backdrop-blur-sm animate-scale-in group"
+              className="hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border-0 backdrop-blur-sm animate-scale-in group shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-gradient-to-br from-emerald-50 to-teal-50"
               style={{ animationDelay: "0.5s" }}
             >
               <CardHeader>
