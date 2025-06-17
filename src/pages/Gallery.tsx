@@ -114,7 +114,7 @@ const Gallery = () => {
                 className="animate-scale-in"
                 style={{ animationDelay: "0.6s" }}
               >
-                <Button
+                <Button 
                   onClick={() => setIsModalOpen(true)}
                   className="bg-white text-teal-600 hover:bg-cyan-50 hover:scale-105 transition-all duration-300 font-semibold px-6 py-3 shadow-xl"
                 >
@@ -140,7 +140,7 @@ const Gallery = () => {
             style={{ animationDelay: "1.5s" }}
           ></div>
         </div>
-
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {images.map((image, index) => (
@@ -190,8 +190,8 @@ const Gallery = () => {
                 Start building your gallery by adding some images.
               </p>
               {isAdmin && (
-                <Button
-                  onClick={() => setIsModalOpen(true)}
+                <Button 
+                  onClick={() => setIsModalOpen(true)} 
                   className="gradient-primary hover:scale-105 transition-all duration-300 text-white font-semibold px-8 py-3 text-lg shadow-xl"
                 >
                   Add Your First Image

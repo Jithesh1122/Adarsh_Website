@@ -217,7 +217,7 @@ const Courses = () => {
   const CourseCard = ({ course }: { course: Course }) => (
     <Card className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
+      
       <CardHeader className="relative z-10">
         <div className="flex justify-between items-start">
           <div className="flex-1">
@@ -250,7 +250,7 @@ const Courses = () => {
           )}
         </div>
       </CardHeader>
-
+      
       <CardContent className="relative z-10">
         <div className="space-y-3 mb-6">
           <div className="flex items-center justify-between">
@@ -263,10 +263,10 @@ const Courses = () => {
             </span>
           </div>
         </div>
-
+        
         <Link to={`/courses/${course.id}`}>
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 hover:scale-105"
           >
             <Eye className="w-4 h-4 mr-2" />
@@ -293,7 +293,7 @@ const Courses = () => {
             style={{ animationDelay: "1s" }}
           ></div>
         </div>
-
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex justify-between items-center">
             <div>
@@ -313,7 +313,7 @@ const Courses = () => {
                 className="animate-scale-in"
                 style={{ animationDelay: "0.6s" }}
               >
-                <Button
+                <Button 
                   onClick={openAddModal}
                   className="bg-white text-teal-600 hover:bg-cyan-50 hover:scale-105 transition-all duration-300 font-semibold px-6 py-3 shadow-xl"
                 >

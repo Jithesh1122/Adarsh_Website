@@ -9,13 +9,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { BookOpen, Users, Award, Briefcase } from "lucide-react";
+import { BookOpen, Users, Award, Briefcase, ArrowRight } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -26,6 +25,23 @@ const Index = () => {
       behavior: "smooth",
     });
   };
+
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   const carouselImages = [
     "/images/carousel_image_1.jpg",
@@ -78,6 +94,7 @@ const Index = () => {
                   loop: true,
                 }}
                 plugins={[Autoplay({ delay: 3000 })]}
+                setApi={setApi}
               >
                 <CarouselContent>
                   {carouselImages.map((image, index) => (
@@ -93,9 +110,19 @@ const Index = () => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="absolute left-4" />
-                <CarouselNext className="absolute right-4" />
               </Carousel>
+              <div className="flex justify-center gap-2 mt-4">
+                {Array.from({ length: count }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => api?.scrollTo(index)}
+                    className={`w-3 h-3 rounded-full ${
+                      index + 1 === current ? "bg-blue-600" : "bg-gray-400"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
 
             <div
@@ -128,18 +155,17 @@ const Index = () => {
       <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 animate-fade-in">
-              About Adarsh Technical Institute
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 animate-fade-in flex items-center justify-center">
+              About Adarsh Technical Institute{" "}
+              <ArrowRight className="ml-4 w-10 h-10 text-blue-600" />
             </h2>
             <p
-              className="text-xl text-slate-600 max-w-3xl mx-auto animate-slide-up"
+              className="text-xl text-slate-600 max-w-full mx-auto animate-slide-up"
               style={{ animationDelay: "0.2s" }}
             >
-              Adarsh Technical Institute - Uppala, Ideal Technical Institute - Kasaragod are the reputed educational institutions in Kasaragod District. This Institutions are controlled by the Director of Technical Education Govt. of Kerala.
-
-Our Institutions has been providing Technical and Computer training to the students of this region for the last 20 years. We are Pleased to say that We received tremendous response from this region in this regard ever since we started our Institution. It is our pleasure to say that our Institutions played a major role in the development of the Society by giving Technical and computer Education. Till now more than 1,00,000 Students have successfully completed our courses. Computer and Technical education is inevitable in the Present age and we assure Prospective job opportunities for the aspirants through our courses.
-
-
+              Established with a vision to provide quality technical education,
+              we have been shaping careers and building futures for aspiring
+              technical professionals.
             </p>
           </div>
 
