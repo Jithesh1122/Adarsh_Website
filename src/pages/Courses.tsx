@@ -216,11 +216,11 @@ const Courses = () => {
 
   const CourseCard = ({ course }: { course: Course }) => (
     <Card
-      className={`group relative overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 backdrop-blur-sm shadow-lg bg-gradient-to-br from-teal-400 to-blue-300`}
+      className={`group relative overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 backdrop-blur-sm shadow-lg flex flex-col min-h-[280px] bg-gradient-to-br from-teal-200 to-blue-200`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-      <CardHeader className="relative z-10">
+      <CardHeader className="relative z-10 flex-grow">
         <div className="flex justify-between items-start">
           <div className="flex-1">
             <CardTitle className="text-lg mb-2 font-medium group-hover:text-blue-600 transition-colors duration-300">
@@ -253,29 +253,33 @@ const Courses = () => {
         </div>
       </CardHeader>
 
-      <CardContent className="relative z-10">
-        <div className="space-y-3 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Clock className="w-4 h-4 text-blue-600" />
-              <span className="text-sm text-slate-600">Duration:</span>
+      {/* This wrapper div pushes the duration and button to the bottom */}
+      <div className="mt-auto px-6 pb-6 w-full">
+        <CardContent className="relative z-10 p-0">
+          {" "}
+          {/* Remove default CardContent padding */}
+          <div className="space-y-3 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Clock className="w-4 h-4 text-blue-600" />
+                <span className="text-sm text-slate-600">Duration:</span>
+              </div>
+              <span className="font-medium text-slate-900">
+                {course.duration}
+              </span>
             </div>
-            <span className="font-medium text-slate-900">
-              {course.duration}
-            </span>
           </div>
-        </div>
-
-        <Link to={`/courses/${course.id}`}>
-          <Button
-            variant="outline"
-            className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 hover:scale-105"
-          >
-            <Eye className="w-4 h-4 mr-2" />
-            View Details
-          </Button>
-        </Link>
-      </CardContent>
+          <Link to={`/courses/${course.id}`}>
+            <Button
+              variant="outline"
+              className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 hover:scale-105"
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              View Details
+            </Button>
+          </Link>
+        </CardContent>
+      </div>
     </Card>
   );
 
