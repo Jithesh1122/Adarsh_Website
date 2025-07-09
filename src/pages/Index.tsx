@@ -82,10 +82,18 @@ const Index = () => {
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10 w-full">
           <div className="text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-8 animate-fade-in">
-              <span className="text-white">Welcome to</span>{" "}
-              <span className="text-cyan-300">Adarsh Technical Institute</span>
-            </h1>
+            {/* Updated Hero Heading */}
+            <div className="mb-8 animate-fade-in">
+              <div className="text-2xl md:text-6xl text-white font-bold text-center mb-2">
+                WELCOME TO
+              </div>
+              <div
+                className="text-5xl md:text-7xl font-bold text-center"
+                style={{ color: "#800000" }}
+              >
+                ADARSH TECHNICAL INSTITUTE
+              </div>
+            </div>
 
             <div className="w-full max-w-4xl mx-auto mb-8">
               <Carousel
@@ -154,21 +162,49 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
+      <section
+        id="about"
+        className="py-20 bg-gradient-to-b from-slate-50 to-white"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 animate-fade-in flex items-center justify-center">
-              About Adarsh Technical Institute{" "}
-              <ArrowRight className="ml-4 w-10 h-10 text-blue-600" />
-            </h2>
-            <p
-              className="text-xl text-slate-600 max-w-full mx-auto animate-slide-up"
-              style={{ animationDelay: "0.2s" }}
-            >
-              Established with a vision to provide quality technical education,
-              we have been shaping careers and building futures for aspiring
-              technical professionals.
-            </p>
+          <div className="flex justify-center mb-16">
+            <div className="w-full bg-white/90 rounded-2xl shadow-2xl p-8 border border-slate-200 animate-fade-in">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 flex items-center justify-center">
+                About Adarsh Technical Institute
+                <ArrowRight className="ml-4 w-10 h-10 text-blue-600" />
+              </h2>
+              <p
+                className="text-lg md:text-xl text-slate-700 animate-slide-up text-justify"
+                style={{ animationDelay: "0.2s" }}
+              >
+                Adarsh Technical Institute – Uppala and Ideasi Technical
+                Institute – Kasaragod are two well-established and reputed
+                educational institutions located in Kasaragod District. These
+                institutions operate under the control of the Director of
+                Technical Education, Government of Kerala.
+                <br /> For over 20 years, our institutions have been providing
+                high-quality technical and computer training to students across
+                the region. We are proud to have received overwhelming support
+                and positive response from the community since our inception.
+                <br /> Our institutions have played a vital role in the
+                educational and social development of the region by empowering
+                students with practical skills and job-ready knowledge in
+                technical and computer fields.
+                <br /> To date, more than 1,00,000 students have successfully
+                completed various courses from our institutions. In today's
+                technology-driven world, computer and technical education is
+                indispensable, and we are committed to offering courses that
+                ensure bright career prospects and employment opportunities for
+                our students.
+                <br /> We also offer a wide range of job-oriented courses,
+                including: Computer Courses,Teacher Training Programs,All Types
+                of Correspondence Courses.
+                <br />
+                Our centre is also affiliated with the Rashtriya Computer
+                Saksharata Samiti, further enhancing the credibility and
+                recognition of our programs.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

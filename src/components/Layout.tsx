@@ -19,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const navItems = [
     { path: "/", label: "Home" },
+    { path: "/#about", label: "About Us", isAnchor: true },
     { path: "/courses", label: "Courses" },
     { path: "/gallery", label: "Gallery" },
     { path: "/contact", label: "Contact" },
@@ -56,10 +57,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 bg-clip-text text-transparent group-hover:from-purple-600 group-hover:to-blue-700 transition-all duration-500">
-                    Adarsh Technical Institute
+                  ADARSH TECHNICAL INSTITUTE
                   </h1>
                   <p className="text-sm text-slate-600 font-medium">
-                    Excellence in Technical Education
+                    Recognised By Govt of Kerala
                   </p>
                 </div>
               </Link>
@@ -67,23 +68,47 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={handleNavigation}
-                  className={`relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
-                    isActivePage(item.path)
-                      ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/30"
-                      : "text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 hover:shadow-md"
-                  }`}
-                >
-                  {item.label}
-                  {isActivePage(item.path) && (
-                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-cyan-300 rounded-full animate-pulse"></div>
-                  )}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                if (item.isAnchor) {
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.path}
+                      onClick={(e) => {
+                        if (location.pathname === "/") {
+                          e.preventDefault();
+                          setIsMobileMenuOpen(false);
+                          const aboutSection = document.getElementById("about");
+                          if (aboutSection) {
+                            aboutSection.scrollIntoView({ behavior: "smooth" });
+                          }
+                        }
+                      }}
+                      className="relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 hover:shadow-md"
+                    >
+                      {item.label}
+                    </a>
+                  );
+                } else {
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={handleNavigation}
+                      className={`relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+                        isActivePage(item.path)
+                          ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/30"
+                          : "text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 hover:shadow-md"
+                      }`}
+                    >
+                      {item.label}
+                      {isActivePage(item.path) && (
+                        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-cyan-300 rounded-full animate-pulse"></div>
+                      )}
+                    </Link>
+                  );
+                }
+              })}
             </div>
 
             {/* Desktop Admin/Login Section */}
@@ -150,20 +175,44 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           }`}
         >
           <div className="px-4 pt-2 pb-3 space-y-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={handleNavigation}
-                className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
-                  isActivePage(item.path)
-                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
-                    : "text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              if (item.isAnchor) {
+                return (
+                  <a
+                    key={item.label}
+                    href={item.path}
+                    onClick={(e) => {
+                      if (location.pathname === "/") {
+                        e.preventDefault();
+                        setIsMobileMenuOpen(false);
+                        const aboutSection = document.getElementById("about");
+                        if (aboutSection) {
+                          aboutSection.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }
+                    }}
+                    className="block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50"
+                  >
+                    {item.label}
+                  </a>
+                );
+              } else {
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={handleNavigation}
+                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
+                      isActivePage(item.path)
+                        ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
+                        : "text-slate-700 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              }
+            })}
 
             {/* Mobile Admin/Login Section */}
             <div className="pt-4 border-t border-slate-200">
