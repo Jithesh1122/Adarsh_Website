@@ -177,32 +177,29 @@ const Index = () => {
                 className="text-lg md:text-xl text-slate-700 animate-slide-up text-justify"
                 style={{ animationDelay: "0.2s" }}
               >
-                Adarsh Technical Institute – Uppala and Ideasi Technical
+                {typeof window !== "undefined" &&
+                  (localStorage.getItem("aboutUsText") ||
+                    `Adarsh Technical Institute – Uppala and Ideasi Technical
                 Institute – Kasaragod are two well-established and reputed
                 educational institutions located in Kasaragod District. These
                 institutions operate under the control of the Director of
                 Technical Education, Government of Kerala.
-                <br /> For over 25 years, our institutions have been providing
+                For over 25 years, our institutions have been providing
                 high-quality technical and computer training to students across
                 the region. We are proud to have received overwhelming support
                 and positive response from the community since our inception.
-                <br /> Our institutions have played a vital role in the
+                Our institutions have played a vital role in the
                 educational and social development of the region by empowering
                 students with practical skills and job-ready knowledge in
                 technical and computer fields.
-                <br /> To date, more than 1,00,000 students have successfully
+                To date, more than 1,00,000 students have successfully
                 completed various courses from our institutions. In today's
                 technology-driven world, computer and technical education is
                 indispensable, and we are committed to offering courses that
                 ensure bright career prospects and employment opportunities for
                 our students.
-                <br /> We also offer a wide range of job-oriented courses,
-                including: Computer Courses,Teacher Training Programs,All Types
-                of Correspondence Courses.
-                <br />
-                Our centre is also affiliated with the Rashtriya Computer
-                Saksharata Samiti, further enhancing the credibility and
-                recognition of our programs.
+                We also offer a wide range of job-oriented courses,
+                including: Computer Courses,Teacher Training Programs,All Types`)}
               </p>
             </div>
           </div>
