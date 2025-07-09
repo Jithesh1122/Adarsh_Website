@@ -12,3 +12,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+User-agent: *
+Allow: /
+Sitemap: https://adarsh-technical-institute.web.app/sitemap.xml
