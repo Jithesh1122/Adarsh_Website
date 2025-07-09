@@ -182,7 +182,7 @@ const Index = () => {
                 educational institutions located in Kasaragod District. These
                 institutions operate under the control of the Director of
                 Technical Education, Government of Kerala.
-                <br /> For over 20 years, our institutions have been providing
+                <br /> For over 25 years, our institutions have been providing
                 high-quality technical and computer training to students across
                 the region. We are proud to have received overwhelming support
                 and positive response from the community since our inception.

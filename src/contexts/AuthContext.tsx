@@ -1,5 +1,4 @@
-
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 interface AuthContextType {
   isAdmin: boolean;
@@ -9,20 +8,22 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const adminStatus = localStorage.getItem('isAdmin');
-    if (adminStatus === 'true') {
+    const adminStatus = localStorage.getItem("isAdmin");
+    if (adminStatus === "true") {
       setIsAdmin(true);
     }
   }, []);
 
   const login = (email: string, password: string): boolean => {
-    if (email === 'jitheshpshetty14@gmail.com' && password === '123456') {
+    if (email === "adarshtechuppala@gmail.com" && password === "Srpl@8734") {
       setIsAdmin(true);
-      localStorage.setItem('isAdmin', 'true');
+      localStorage.setItem("isAdmin", "true");
       return true;
     }
     return false;
@@ -30,7 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     setIsAdmin(false);
-    localStorage.removeItem('isAdmin');
+    localStorage.removeItem("isAdmin");
   };
 
   return (
@@ -43,7 +44,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
