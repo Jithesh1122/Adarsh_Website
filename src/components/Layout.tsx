@@ -40,7 +40,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen bg-background">
       <nav className="bg-white/90 backdrop-blur-xl shadow-2xl border-b-2 border-gradient-to-r from-blue-500 to-cyan-400 sticky top-0 z-50 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-2 sm:px-4 lg:px-6">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
               <Link
@@ -57,7 +57,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 bg-clip-text text-transparent group-hover:from-purple-600 group-hover:to-blue-700 transition-all duration-500">
-                  ADARSH TECHNICAL INSTITUTE
+                    ADARSH TECHNICAL INSTITUTE
                   </h1>
                   <p className="text-sm text-slate-600 font-medium">
                     Recognised By Govt of Kerala
