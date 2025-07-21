@@ -34,7 +34,8 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.imageUrl && formData.title) {
+    if (formData.imageUrl) {
+      // Only require imageUrl, not title
       onSubmit(formData);
       setFormData({ imageUrl: "", title: "" });
       onClose();
@@ -93,8 +94,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
               id="title"
               value={formData.title}
               onChange={(e) => handleChange("title", e.target.value)}
-              placeholder="Enter image title"
-              required
+              placeholder="Enter image title (optional)"
             />
           </div>
 
