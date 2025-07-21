@@ -348,31 +348,31 @@ const Courses = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Tabs defaultValue="iti" className="w-full mt-4">
-            <TabsList className="grid w-full grid-cols-3 bg-slate-200 p-1 rounded-lg shadow-inner">
+            <TabsList className="w-full bg-slate-200 p-1 rounded-lg shadow-inner flex flex-row overflow-x-auto md:grid md:grid-cols-3 md:overflow-visible">
               <TabsTrigger
                 value="iti"
-                className="text-sm md:text-lg py-3 rounded-md transition-all duration-300 
-                           data-[state=active]:bg-blue-600 data-[state=active]:text-white 
-                           data-[state=active]:shadow-lg data-[state=active]:scale-105 
-                           hover:bg-blue-100 hover:text-blue-800"
+                className="text-xs md:text-lg py-3 rounded-md transition-all duration-300 \
+                           data-[state=active]:bg-blue-600 data-[state=active]:text-white \
+                           data-[state=active]:shadow-lg data-[state=active]:scale-105 \
+                           hover:bg-blue-100 hover:text-blue-800 min-w-[140px]"
               >
                 ITI COURSES
               </TabsTrigger>
               <TabsTrigger
                 value="computer"
-                className="text-sm md:text-lg py-3 rounded-md transition-all duration-300 
-                           data-[state=active]:bg-blue-600 data-[state=active]:text-white 
-                           data-[state=active]:shadow-lg data-[state=active]:scale-105 
-                           hover:bg-blue-100 hover:text-blue-800"
+                className="text-xs md:text-lg py-3 rounded-md transition-all duration-300 \
+                           data-[state=active]:bg-blue-600 data-[state=active]:text-white \
+                           data-[state=active]:shadow-lg data-[state=active]:scale-105 \
+                           hover:bg-blue-100 hover:text-blue-800 min-w-[140px]"
               >
                 COMPUTER COURSES
               </TabsTrigger>
               <TabsTrigger
                 value="other"
-                className="text-sm md:text-lg py-3 rounded-md transition-all duration-300 
-                           data-[state=active]:bg-blue-600 data-[state=active]:text-white 
-                           data-[state=active]:shadow-lg data-[state=active]:scale-105 
-                           hover:bg-blue-100 hover:text-blue-800"
+                className="text-xs md:text-lg py-3 rounded-md transition-all duration-300 \
+                           data-[state=active]:bg-blue-600 data-[state=active]:text-white \
+                           data-[state=active]:shadow-lg data-[state=active]:scale-105 \
+                           hover:bg-blue-100 hover:text-blue-800 min-w-[140px]"
               >
                 NTTC COURSES
               </TabsTrigger>
