@@ -5,6 +5,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Trash2, Plus } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import GalleryModal from "@/components/GalleryModal";
+import { db } from "@/lib/firebase";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
 interface GalleryImage {
   id: string;
@@ -19,72 +27,29 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
 
   useEffect(() => {
-    const savedImages = localStorage.getItem("galleryImages");
-    if (savedImages) {
-      setImages(JSON.parse(savedImages));
-    } else {
-      // Default gallery images
-      const defaultImages: GalleryImage[] = [
-        {
-          id: "1",
-          imageUrl:
-            "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          title: "Computer Lab",
-        },
-        {
-          id: "2",
-          imageUrl:
-            "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          title: "Programming Class",
-        },
-        {
-          id: "3",
-          imageUrl:
-            "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          title: "Web Development Session",
-        },
-        {
-          id: "4",
-          imageUrl:
-            "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          title: "Coding Workshop",
-        },
-        {
-          id: "5",
-          imageUrl:
-            "https://images.unsplash.com/photo-1483058712412-4245e9b90334?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          title: "Study Environment",
-        },
-        {
-          id: "6",
-          imageUrl:
-            "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          title: "Online Learning",
-        },
-      ];
-      setImages(defaultImages);
-      localStorage.setItem("galleryImages", JSON.stringify(defaultImages));
-    }
+    const fetchImages = async () => {
+      const querySnapshot = await getDocs(collection(db, "gallery"));
+      const images = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setImages(images);
+    };
+    fetchImages();
   }, []);
 
-  const handleAddImage = (imageData: Omit<GalleryImage, "id">) => {
-    const newImage: GalleryImage = {
-      ...imageData,
-      id: Date.now().toString(),
-    };
-    const updatedImages = [...images, newImage];
-    setImages(updatedImages);
-    localStorage.setItem("galleryImages", JSON.stringify(updatedImages));
+  const handleAddImage = async (imageData: Omit<GalleryImage, "id">) => {
+    const docRef = await addDoc(collection(db, "gallery"), imageData);
+    setImages((prev) => [...prev, { id: docRef.id, ...imageData }]);
     toast({
       title: "Image Added",
       description: "New image has been added to the gallery.",
     });
   };
 
-  const handleDeleteImage = (imageId: string) => {
-    const updatedImages = images.filter((image) => image.id !== imageId);
-    setImages(updatedImages);
-    localStorage.setItem("galleryImages", JSON.stringify(updatedImages));
+  const handleDeleteImage = async (imageId: string) => {
+    await deleteDoc(doc(db, "gallery", imageId));
+    setImages((prev) => prev.filter((image) => image.id !== imageId));
     toast({
       title: "Image Deleted",
       description: "Image has been removed from the gallery.",

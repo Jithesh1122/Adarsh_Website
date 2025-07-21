@@ -15,6 +15,15 @@ import { Trash2, Plus, Eye, Clock, BookOpen } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import CourseModal from "@/components/CourseModal";
+import { db } from "@/lib/firebase";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
 interface Course {
   id: string;
@@ -33,149 +42,140 @@ const Courses = () => {
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
 
   useEffect(() => {
-    // localStorage.clear(); // TEMPORARY: Clear local storage to force default courses to load
-    const savedCourses = localStorage.getItem("courses");
-    if (savedCourses) {
-      setCourses(JSON.parse(savedCourses));
-    } else {
-      // Default courses organized by category
-      const defaultCourses: Course[] = [
-        // ITI COURSES
-        {
-          id: "1",
-          title: "REFRIGERATION AND AC ENGINEERING",
-          description:
-            "Comprehensive training in refrigeration and air conditioning systems installation, maintenance, and repair.",
-          duration: "1 year",
-          category: "ITI COURSES",
-        },
-        {
-          id: "2",
-          title: "ELECTRICAL ENGINEERING",
-          description:
-            "Complete electrical engineering course covering wiring, motor control, and electrical systems.",
-          duration: "1 year",
-          category: "ITI COURSES",
-        },
-        {
-          id: "3",
-          title: "AUTOMOBILE TECHNICIAN",
-          description:
-            "Hands-on training in automobile maintenance, repair, and diagnostics.",
-          duration: "1 year",
-          category: "ITI COURSES",
-        },
-        {
-          id: "4",
-          title: "COMPUTER HARDWARE",
-          description:
-            "Computer hardware installation, troubleshooting, and maintenance training.",
-          duration: "1 year",
-          category: "ITI COURSES",
-        },
-        // COMPUTER COURSES
-        {
-          id: "5",
-          title: "PGDCA (POST GRADUATE DIPLOMA IN COMPUTER APPLICATION)",
-          description:
-            "Advanced computer applications course for graduates seeking specialization in IT.",
-          duration: "1 year",
-          category: "COMPUTER COURSES",
-        },
-        {
-          id: "6",
-          title: "DCTT (DIPLOMA IN COMPUTER TEACHER TRAINING)",
-          description:
-            "Specialized training for aspiring computer teachers and educators.",
-          duration: "6 months",
-          category: "COMPUTER COURSES",
-        },
-        {
-          id: "7",
-          title: "PGDIT (POST GRADUATE DIPLOMA IN INFORMATION TECHNOLOGY)",
-          description:
-            "Advanced information technology concepts and practical applications.",
-          duration: "1 year",
-          category: "COMPUTER COURSES",
-        },
-        {
-          id: "8",
-          title: "DCA (DIPLOMA IN COMPUTER APPLICATION)",
-          description:
-            "Fundamental computer applications and office productivity tools.",
-          duration: "6 months",
-          category: "COMPUTER COURSES",
-        },
-        {
-          id: "9",
-          title: "DTP (DIPLOMA IN DESKTOP PUBLISHING)",
-          description:
-            "Professional desktop publishing and graphic design training.",
-          duration: "3 months",
-          category: "COMPUTER COURSES",
-        },
-        {
-          id: "10",
-          title: "DOA (DIPLOMA IN OFFICE AUTOMATION)",
-          description:
-            "Office automation tools and business productivity software training.",
-          duration: "3 months",
-          category: "COMPUTER COURSES",
-        },
-        {
-          id: "11",
-          title: "DIPLOMA IN CAD",
-          description:
-            "Computer-aided design and drafting using professional CAD software.",
-          duration: "6 months",
-          category: "COMPUTER COURSES",
-        },
-        // Other Courses
-        {
-          id: "12",
-          title: "PPTTC COURSE",
-          description:
-            "Primary Pre-Teacher Training Course for early childhood education.",
-          duration: "1 year",
-          category: "NTTC COURSES",
-        },
-        {
-          id: "13",
-          title: "DNTTC COURSE",
-          description:
-            "Diploma in Nursery Teacher Training Course for nursery education. This course focuses on foundational teaching skills for early childhood education.",
-          duration: "1 year",
-          category: "NTTC COURSES",
-        },
-      ];
-      setCourses(defaultCourses);
-      localStorage.setItem("courses", JSON.stringify(defaultCourses));
-    }
+    const fetchCourses = async () => {
+      const querySnapshot = await getDocs(collection(db, "courses"));
+      let courses = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Omit<Course, "id">),
+      }));
+      if (courses.length === 0) {
+        // Add default courses if none exist
+        const defaultCourses: Omit<Course, "id">[] = [
+          {
+            title: "REFRIGERATION AND AC ENGINEERING",
+            description:
+              "Comprehensive training in refrigeration and air conditioning systems installation, maintenance, and repair.",
+            duration: "1 year",
+            category: "ITI COURSES",
+          },
+          {
+            title: "ELECTRICAL ENGINEERING",
+            description:
+              "Complete electrical engineering course covering wiring, motor control, and electrical systems.",
+            duration: "1 year",
+            category: "ITI COURSES",
+          },
+          {
+            title: "AUTOMOBILE TECHNICIAN",
+            description:
+              "Hands-on training in automobile maintenance, repair, and diagnostics.",
+            duration: "1 year",
+            category: "ITI COURSES",
+          },
+          {
+            title: "COMPUTER HARDWARE",
+            description:
+              "Computer hardware installation, troubleshooting, and maintenance training.",
+            duration: "1 year",
+            category: "ITI COURSES",
+          },
+          {
+            title: "PGDCA (POST GRADUATE DIPLOMA IN COMPUTER APPLICATION)",
+            description:
+              "Advanced computer applications course for graduates seeking specialization in IT.",
+            duration: "1 year",
+            category: "COMPUTER COURSES",
+          },
+          {
+            title: "DCTT (DIPLOMA IN COMPUTER TEACHER TRAINING)",
+            description:
+              "Specialized training for aspiring computer teachers and educators.",
+            duration: "6 months",
+            category: "COMPUTER COURSES",
+          },
+          {
+            title: "PGDIT (POST GRADUATE DIPLOMA IN INFORMATION TECHNOLOGY)",
+            description:
+              "Advanced information technology concepts and practical applications.",
+            duration: "1 year",
+            category: "COMPUTER COURSES",
+          },
+          {
+            title: "DCA (DIPLOMA IN COMPUTER APPLICATION)",
+            description:
+              "Fundamental computer applications and office productivity tools.",
+            duration: "6 months",
+            category: "COMPUTER COURSES",
+          },
+          {
+            title: "DTP (DIPLOMA IN DESKTOP PUBLISHING)",
+            description:
+              "Professional desktop publishing and graphic design training.",
+            duration: "3 months",
+            category: "COMPUTER COURSES",
+          },
+          {
+            title: "DOA (DIPLOMA IN OFFICE AUTOMATION)",
+            description:
+              "Office automation tools and business productivity software training.",
+            duration: "3 months",
+            category: "COMPUTER COURSES",
+          },
+          {
+            title: "DIPLOMA IN CAD",
+            description:
+              "Computer-aided design and drafting using professional CAD software.",
+            duration: "6 months",
+            category: "COMPUTER COURSES",
+          },
+          {
+            title: "PPTTC COURSE",
+            description:
+              "Primary Pre-Teacher Training Course for early childhood education.",
+            duration: "1 year",
+            category: "NTTC COURSES",
+          },
+          {
+            title: "DNTTC COURSE",
+            description:
+              "Diploma in Nursery Teacher Training Course for nursery education. This course focuses on foundational teaching skills for early childhood education.",
+            duration: "1 year",
+            category: "NTTC COURSES",
+          },
+        ];
+        // Add all default courses to Firestore
+        const addedCourses = await Promise.all(
+          defaultCourses.map(async (course) => {
+            const docRef = await addDoc(collection(db, "courses"), course);
+            return { id: docRef.id, ...course };
+          })
+        );
+        courses = addedCourses;
+      }
+      setCourses(courses);
+    };
+    fetchCourses();
   }, []);
 
-  const handleAddCourse = (courseData: Omit<Course, "id">) => {
-    const newCourse: Course = {
-      ...courseData,
-      id: Date.now().toString(),
-    };
-    const updatedCourses = [...courses, newCourse];
-    setCourses(updatedCourses);
-    localStorage.setItem("courses", JSON.stringify(updatedCourses));
+  const handleAddCourse = async (courseData: Omit<Course, "id">) => {
+    const docRef = await addDoc(collection(db, "courses"), courseData);
+    setCourses((prev) => [...prev, { id: docRef.id, ...courseData }]);
     toast({
       title: "Course Added",
       description: `New course has been added to ${courseData.category}.`,
     });
   };
 
-  const handleEditCourse = (courseData: Omit<Course, "id">) => {
+  const handleEditCourse = async (courseData: Omit<Course, "id">) => {
     if (editingCourse) {
-      const updatedCourses = courses.map((course) =>
-        course.id === editingCourse.id
-          ? { ...courseData, id: editingCourse.id }
-          : course
+      await updateDoc(doc(db, "courses", editingCourse.id), courseData);
+      setCourses((prev) =>
+        prev.map((course) =>
+          course.id === editingCourse.id
+            ? { ...courseData, id: editingCourse.id }
+            : course
+        )
       );
-      setCourses(updatedCourses);
-      localStorage.setItem("courses", JSON.stringify(updatedCourses));
       toast({
         title: "Course Updated",
         description: "Course has been updated successfully.",
@@ -183,14 +183,123 @@ const Courses = () => {
     }
   };
 
-  const handleDeleteCourse = (courseId: string) => {
-    const updatedCourses = courses.filter((course) => course.id !== courseId);
-    setCourses(updatedCourses);
-    localStorage.setItem("courses", JSON.stringify(updatedCourses));
+  const handleDeleteCourse = async (courseId: string) => {
+    await deleteDoc(doc(db, "courses", courseId));
+    setCourses((prev) => prev.filter((course) => course.id !== courseId));
     toast({
       title: "Course Deleted",
       description: "Course has been deleted successfully.",
     });
+  };
+
+  // One-time function to add all default courses to Firestore
+  const addDefaultCourses = async () => {
+    const defaultCourses: Omit<Course, "id">[] = [
+      {
+        title: "REFRIGERATION AND AC ENGINEERING",
+        description:
+          "Comprehensive training in refrigeration and air conditioning systems installation, maintenance, and repair.",
+        duration: "1 year",
+        category: "ITI COURSES",
+      },
+      {
+        title: "ELECTRICAL ENGINEERING",
+        description:
+          "Complete electrical engineering course covering wiring, motor control, and electrical systems.",
+        duration: "1 year",
+        category: "ITI COURSES",
+      },
+      {
+        title: "AUTOMOBILE TECHNICIAN",
+        description:
+          "Hands-on training in automobile maintenance, repair, and diagnostics.",
+        duration: "1 year",
+        category: "ITI COURSES",
+      },
+      {
+        title: "COMPUTER HARDWARE",
+        description:
+          "Computer hardware installation, troubleshooting, and maintenance training.",
+        duration: "1 year",
+        category: "ITI COURSES",
+      },
+      {
+        title: "PGDCA (POST GRADUATE DIPLOMA IN COMPUTER APPLICATION)",
+        description:
+          "Advanced computer applications course for graduates seeking specialization in IT.",
+        duration: "1 year",
+        category: "COMPUTER COURSES",
+      },
+      {
+        title: "DCTT (DIPLOMA IN COMPUTER TEACHER TRAINING)",
+        description:
+          "Specialized training for aspiring computer teachers and educators.",
+        duration: "6 months",
+        category: "COMPUTER COURSES",
+      },
+      {
+        title: "PGDIT (POST GRADUATE DIPLOMA IN INFORMATION TECHNOLOGY)",
+        description:
+          "Advanced information technology concepts and practical applications.",
+        duration: "1 year",
+        category: "COMPUTER COURSES",
+      },
+      {
+        title: "DCA (DIPLOMA IN COMPUTER APPLICATION)",
+        description:
+          "Fundamental computer applications and office productivity tools.",
+        duration: "6 months",
+        category: "COMPUTER COURSES",
+      },
+      {
+        title: "DTP (DIPLOMA IN DESKTOP PUBLISHING)",
+        description:
+          "Professional desktop publishing and graphic design training.",
+        duration: "3 months",
+        category: "COMPUTER COURSES",
+      },
+      {
+        title: "DOA (DIPLOMA IN OFFICE AUTOMATION)",
+        description:
+          "Office automation tools and business productivity software training.",
+        duration: "3 months",
+        category: "COMPUTER COURSES",
+      },
+      {
+        title: "DIPLOMA IN CAD",
+        description:
+          "Computer-aided design and drafting using professional CAD software.",
+        duration: "6 months",
+        category: "COMPUTER COURSES",
+      },
+      {
+        title: "PPTTC COURSE",
+        description:
+          "Primary Pre-Teacher Training Course for early childhood education.",
+        duration: "1 year",
+        category: "NTTC COURSES",
+      },
+      {
+        title: "DNTTC COURSE",
+        description:
+          "Diploma in Nursery Teacher Training Course for nursery education. This course focuses on foundational teaching skills for early childhood education.",
+        duration: "1 year",
+        category: "NTTC COURSES",
+      },
+    ];
+    await Promise.all(
+      defaultCourses.map(async (course) => {
+        await addDoc(collection(db, "courses"), course);
+      })
+    );
+    // Refetch courses after adding
+    const querySnapshot = await getDocs(collection(db, "courses"));
+    const courses = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...(doc.data() as Omit<Course, "id">),
+    }));
+    setCourses(courses);
+    toast({ title: "Default courses added!" });
   };
 
   const openAddModal = () => {

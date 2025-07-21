@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import Layout from '@/components/Layout';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Clock, BookOpen } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Clock, BookOpen } from "lucide-react";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 interface Course {
   id: string;
@@ -21,17 +29,25 @@ const CourseDetails = () => {
   const [course, setCourse] = useState<Course | null>(null);
 
   useEffect(() => {
-    const savedCourses = localStorage.getItem('courses');
-    if (savedCourses) {
-      const courses: Course[] = JSON.parse(savedCourses);
-      const foundCourse = courses.find(c => c.id === id);
-      setCourse(foundCourse || null);
-    }
+    const fetchCourse = async () => {
+      if (!id) return;
+      const docRef = doc(db, "courses", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setCourse({
+          id: docSnap.id,
+          ...(docSnap.data() as Omit<Course, "id">),
+        });
+      } else {
+        setCourse(null);
+      }
+    };
+    fetchCourse();
   }, [id]);
 
   const formatTextToList = (text: string) => {
     if (!text) return [];
-    return text.split('\n').filter(line => line.trim() !== '');
+    return text.split("\n").filter((line) => line.trim() !== "");
   };
 
   if (!course) {
@@ -39,8 +55,12 @@ const CourseDetails = () => {
       <Layout>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Course Not Found</h1>
-            <p className="text-gray-600 mb-8">The course you're looking for doesn't exist.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Course Not Found
+            </h1>
+            <p className="text-gray-600 mb-8">
+              The course you're looking for doesn't exist.
+            </p>
             <Link to="/courses">
               <Button>
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -70,7 +90,9 @@ const CourseDetails = () => {
             <div className="flex justify-between items-start">
               <div>
                 <CardTitle className="text-3xl mb-4">{course.title}</CardTitle>
-                <CardDescription className="text-lg">{course.description}</CardDescription>
+                <CardDescription className="text-lg">
+                  {course.description}
+                </CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -107,12 +129,16 @@ const CourseDetails = () => {
               ) : (
                 <div>
                   <p className="text-gray-600 mb-4">
-                    This comprehensive course is designed to provide you with practical skills and knowledge
-                    in {course.category.toLowerCase()}. Our experienced instructors will guide you through
-                    hands-on projects and real-world applications.
+                    This comprehensive course is designed to provide you with
+                    practical skills and knowledge in{" "}
+                    {course.category.toLowerCase()}. Our experienced instructors
+                    will guide you through hands-on projects and real-world
+                    applications.
                   </p>
                   <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>Comprehensive curriculum covering all essential topics</li>
+                    <li>
+                      Comprehensive curriculum covering all essential topics
+                    </li>
                     <li>Hands-on practical sessions and projects</li>
                     <li>Industry-relevant skills and techniques</li>
                     <li>Expert guidance from experienced instructors</li>
@@ -130,9 +156,11 @@ const CourseDetails = () => {
             <CardContent>
               {course.learningOutcomes ? (
                 <ul className="list-disc list-inside text-gray-600 space-y-2">
-                  {formatTextToList(course.learningOutcomes).map((outcome, index) => (
-                    <li key={index}>{outcome}</li>
-                  ))}
+                  {formatTextToList(course.learningOutcomes).map(
+                    (outcome, index) => (
+                      <li key={index}>{outcome}</li>
+                    )
+                  )}
                 </ul>
               ) : (
                 <ul className="list-disc list-inside text-gray-600 space-y-2">
@@ -161,7 +189,9 @@ const CourseDetails = () => {
                 <Button className="w-full">Contact for Enrollment</Button>
               </Link>
               <Link to="/courses" className="flex-1">
-                <Button variant="outline" className="w-full">View Other Courses</Button>
+                <Button variant="outline" className="w-full">
+                  View Other Courses
+                </Button>
               </Link>
             </div>
           </CardContent>
