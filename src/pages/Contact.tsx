@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import {
   Card,
@@ -8,8 +8,39 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const Contact = () => {
+  const [contactInfo, setContactInfo] = useState({
+    address: "",
+    phone: "",
+    email: "",
+    hours: "",
+  });
+  useEffect(() => {
+    const fetchContact = async () => {
+      const contactDoc = await getDoc(doc(db, "siteContent", "contact"));
+      if (contactDoc.exists()) {
+        const data = contactDoc.data();
+        setContactInfo({
+          address: data.address || "Panchami Plaza,Uppala,Kasaragod",
+          phone: data.phone || "+91 8289986734",
+          email: data.email || "adarshtechuppala@gmail.com",
+          hours: data.hours || "Monday - Saturday: 9:00 AM - 5:00 PM",
+        });
+      } else {
+        setContactInfo({
+          address: "Panchami Plaza,Uppala,Kasaragod",
+          phone: "+91 8289986734",
+          email: "adarshtechuppala@gmail.com",
+          hours: "Monday - Saturday: 9:00 AM - 5:00 PM",
+        });
+      }
+    };
+    fetchContact();
+  }, []);
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -65,11 +96,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-slate-900">Address</p>
-                      <p className="text-slate-600">
-                        {typeof window !== "undefined" &&
-                          (localStorage.getItem("contactAddress") ||
-                            "Panchami Plaza,Uppala,Kasaragod")}
-                      </p>
+                      <p className="text-slate-600">{contactInfo.address}</p>
                     </div>
                   </div>
 
@@ -79,11 +106,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-slate-900">Phone</p>
-                      <p className="text-slate-600">
-                        {typeof window !== "undefined" &&
-                          (localStorage.getItem("contactPhone") ||
-                            "+91 8289986734")}
-                      </p>
+                      <p className="text-slate-600">{contactInfo.phone}</p>
                     </div>
                   </div>
 
@@ -93,11 +116,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-slate-900">Email</p>
-                      <p className="text-slate-600">
-                        {typeof window !== "undefined" &&
-                          (localStorage.getItem("contactEmail") ||
-                            "adarshtechuppala@gmail.com")}
-                      </p>
+                      <p className="text-slate-600">{contactInfo.email}</p>
                     </div>
                   </div>
 
@@ -109,11 +128,7 @@ const Contact = () => {
                       <p className="font-semibold text-slate-900">
                         Office Hours
                       </p>
-                      <p className="text-slate-600">
-                        {typeof window !== "undefined" &&
-                          (localStorage.getItem("contactHours") ||
-                            "Monday - Saturday: 9:00 AM - 5:00 PM")}
-                      </p>
+                      <p className="text-slate-600">{contactInfo.hours}</p>
                     </div>
                   </div>
                 </CardContent>

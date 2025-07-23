@@ -17,6 +17,9 @@ import {
   CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { useEffect, useState } from "react";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const Index = () => {
   const handleNavigation = () => {
@@ -29,6 +32,21 @@ const Index = () => {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
+  const [aboutUsText, setAboutUsText] = useState("");
+
+  useEffect(() => {
+    const fetchAboutUs = async () => {
+      const aboutDoc = await getDoc(doc(db, "siteContent", "about"));
+      if (aboutDoc.exists()) {
+        setAboutUsText(aboutDoc.data().text || "");
+      } else {
+        setAboutUsText(
+          `Adarsh Technical Institute – Uppala and Ideasi Technical Institute – Kasaragod are two well-established and reputed educational institutions located in Kasaragod District. These institutions operate under the control of the Director of Technical Education, Government of Kerala. For over 25 years, our institutions have been providing high-quality technical and computer training to students across the region. We are proud to have received overwhelming support and positive response from the community since our inception. Our institutions have played a vital role in the educational and social development of the region by empowering students with practical skills and job-ready knowledge in technical and computer fields. To date, more than 1,00,000 students have successfully completed various courses from our institutions. In today's technology-driven world, computer and technical education is indispensable, and we are committed to offering courses that ensure bright career prospects and employment opportunities for our students. We also offer a wide range of job-oriented courses, including: Computer Courses,Teacher Training Programs,All Types`
+        );
+      }
+    };
+    fetchAboutUs();
+  }, []);
 
   React.useEffect(() => {
     if (!api) {
@@ -177,29 +195,7 @@ const Index = () => {
                 className="text-lg md:text-xl text-slate-700 animate-slide-up text-justify"
                 style={{ animationDelay: "0.2s" }}
               >
-                {typeof window !== "undefined" &&
-                  (localStorage.getItem("aboutUsText") ||
-                    `Adarsh Technical Institute – Uppala and Ideasi Technical
-                Institute – Kasaragod are two well-established and reputed
-                educational institutions located in Kasaragod District. These
-                institutions operate under the control of the Director of
-                Technical Education, Government of Kerala.
-                For over 25 years, our institutions have been providing
-                high-quality technical and computer training to students across
-                the region. We are proud to have received overwhelming support
-                and positive response from the community since our inception.
-                Our institutions have played a vital role in the
-                educational and social development of the region by empowering
-                students with practical skills and job-ready knowledge in
-                technical and computer fields.
-                To date, more than 1,00,000 students have successfully
-                completed various courses from our institutions. In today's
-                technology-driven world, computer and technical education is
-                indispensable, and we are committed to offering courses that
-                ensure bright career prospects and employment opportunities for
-                our students.
-                We also offer a wide range of job-oriented courses,
-                including: Computer Courses,Teacher Training Programs,All Types`)}
+                {aboutUsText}
               </p>
             </div>
           </div>

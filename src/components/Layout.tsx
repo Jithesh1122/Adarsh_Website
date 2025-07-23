@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { LogOut, User, Menu, X } from "lucide-react";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,7 +15,27 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const { isAdmin, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [footerContact, setFooterContact] = useState({ email: "", phone: "" });
   useScrollToTop();
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      const contactDoc = await getDoc(doc(db, "siteContent", "contact"));
+      if (contactDoc.exists()) {
+        const data = contactDoc.data();
+        setFooterContact({
+          email: data.email || "info@adarshtech.edu",
+          phone: data.phone || "+918289986734",
+        });
+      } else {
+        setFooterContact({
+          email: "info@adarshtech.edu",
+          phone: "+918289986734",
+        });
+      }
+    };
+    fetchContact();
+  }, []);
 
   const isActivePage = (path: string) => location.pathname === path;
 
@@ -296,8 +318,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
-              <p className="text-slate-300">Email: info@adarshtech.edu</p>
-              <p className="text-slate-300">Phone: +918289986734</p>
+              <p className="text-slate-300">Email: {footerContact.email}</p>
+              <p className="text-slate-300">Phone: {footerContact.phone}</p>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-slate-700 text-center text-slate-300">
