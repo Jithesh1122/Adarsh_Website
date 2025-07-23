@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { db } from "@/lib/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const Admin = () => {
   const { isAdmin, login, logout } = useAuth();
@@ -30,34 +32,44 @@ const Admin = () => {
   const navigate = useNavigate();
   const [aboutUsOpen, setAboutUsOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
-  const [aboutUsText, setAboutUsText] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      (localStorage.getItem("aboutUsText") ||
-        `Adarsh Technical Institute – Uppala and Ideasi Technical Institute – Kasaragod are two well-established and reputed educational institutions located in Kasaragod District. These institutions operate under the control of the Director of Technical Education, Government of Kerala. For over 25 years, our institutions have been providing high-quality technical and computer training to students across the region. We are proud to have received overwhelming support and positive response from the community since our inception. Our institutions have played a vital role in the educational and social development of the region by empowering students with practical skills and job-ready knowledge in technical and computer fields. To date, more than 1,00,000 students have successfully completed various courses from our institutions. In today's technology-driven world, computer and technical education is indispensable, and we are committed to offering courses that ensure bright career prospects and employment opportunities for our students. We also offer a wide range of job-oriented courses, including: Computer Courses,Teacher Training Programs,All Types`)
-  );
-  const [contactAddress, setContactAddress] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      (localStorage.getItem("contactAddress") ||
-        "Panchami Plaza,Uppala,Kasaragod")
-  );
-  const [contactPhone, setContactPhone] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      (localStorage.getItem("contactPhone") || "+91 8289986734")
-  );
-  const [contactEmail, setContactEmail] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      (localStorage.getItem("contactEmail") || "adarshtechuppala@gmail.com")
-  );
-  const [contactHours, setContactHours] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      (localStorage.getItem("contactHours") ||
-        "Monday - Saturday: 9:00 AM - 5:00 PM")
-  );
+  const [aboutUsText, setAboutUsText] = useState("");
+  const [contactAddress, setContactAddress] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactHours, setContactHours] = useState("");
+
+  useEffect(() => {
+    const fetchAboutUs = async () => {
+      const aboutDoc = await getDoc(doc(db, "siteContent", "about"));
+      if (aboutDoc.exists()) {
+        setAboutUsText(aboutDoc.data().text || "");
+      } else {
+        setAboutUsText(
+          `Adarsh Technical Institute – Uppala and Ideasi Technical Institute – Kasaragod are two well-established and reputed educational institutions located in Kasaragod District. These institutions operate under the control of the Director of Technical Education, Government of Kerala. For over 25 years, our institutions have been providing high-quality technical and computer training to students across the region. We are proud to have received overwhelming support and positive response from the community since our inception. Our institutions have played a vital role in the educational and social development of the region by empowering students with practical skills and job-ready knowledge in technical and computer fields. To date, more than 1,00,000 students have successfully completed various courses from our institutions. In today's technology-driven world, computer and technical education is indispensable, and we are committed to offering courses that ensure bright career prospects and employment opportunities for our students. We also offer a wide range of job-oriented courses, including: Computer Courses,Teacher Training Programs,All Types`
+        );
+      }
+    };
+    fetchAboutUs();
+  }, []);
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      const contactDoc = await getDoc(doc(db, "siteContent", "contact"));
+      if (contactDoc.exists()) {
+        const data = contactDoc.data();
+        setContactAddress(data.address || "Panchami Plaza,Uppala,Kasaragod");
+        setContactPhone(data.phone || "+91 8289986734");
+        setContactEmail(data.email || "adarshtechuppala@gmail.com");
+        setContactHours(data.hours || "Monday - Saturday: 9:00 AM - 5:00 PM");
+      } else {
+        setContactAddress("Panchami Plaza,Uppala,Kasaragod");
+        setContactPhone("+91 8289986734");
+        setContactEmail("adarshtechuppala@gmail.com");
+        setContactHours("Monday - Saturday: 9:00 AM - 5:00 PM");
+      }
+    };
+    fetchContact();
+  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -294,8 +306,10 @@ const Admin = () => {
             />
             <DialogFooter>
               <Button
-                onClick={() => {
-                  localStorage.setItem("aboutUsText", aboutUsText);
+                onClick={async () => {
+                  await setDoc(doc(db, "siteContent", "about"), {
+                    text: aboutUsText,
+                  });
                   setAboutUsOpen(false);
                   toast({ title: "About Us updated!" });
                 }}
@@ -335,11 +349,13 @@ const Admin = () => {
             </div>
             <DialogFooter>
               <Button
-                onClick={() => {
-                  localStorage.setItem("contactAddress", contactAddress);
-                  localStorage.setItem("contactPhone", contactPhone);
-                  localStorage.setItem("contactEmail", contactEmail);
-                  localStorage.setItem("contactHours", contactHours);
+                onClick={async () => {
+                  await setDoc(doc(db, "siteContent", "contact"), {
+                    address: contactAddress,
+                    phone: contactPhone,
+                    email: contactEmail,
+                    hours: contactHours,
+                  });
                   setContactOpen(false);
                   toast({ title: "Contact details updated!" });
                 }}
