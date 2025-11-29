@@ -297,7 +297,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div>
               <p className="text-slate-300">
                 Providing quality technical education and training for a
-                brighter future.
+                brighter future .
               </p>
             </div>
             <div>
