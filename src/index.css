@@ -249,3 +249,35 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   }
 }
+
+@layer components {
+  .hero-carousel-image {
+    @apply rounded-2xl shadow-2xl max-h-96 object-contain ring-1 ring-white/35 bg-white/10;
+  }
+
+  .hero-updates-card {
+    @apply rounded-2xl border border-cyan-100/70 px-4 py-3 shadow-2xl backdrop-blur-md;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(240, 249, 255, 0.9) 100%
+    );
+  }
+
+  .hero-updates-title {
+    @apply text-xs uppercase tracking-[0.16em] font-semibold text-cyan-800;
+  }
+
+  .hero-updates-text {
+    @apply mt-1 text-sm sm:text-base text-slate-800 font-medium text-center;
+    text-wrap: balance;
+  }
+
+  .hero-updates-dot {
+    @apply h-2 w-2 rounded-full transition-all duration-300 bg-cyan-200 hover:bg-cyan-400;
+  }
+
+  .hero-updates-dot-active {
+    @apply bg-cyan-600 scale-125 shadow-sm shadow-cyan-600/60;
+  }
+}
