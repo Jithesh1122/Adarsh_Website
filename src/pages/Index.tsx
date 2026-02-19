@@ -9,7 +9,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { BookOpen, Users, Award, Briefcase, ArrowRight } from "lucide-react";
+import {
+  BookOpen,
+  Users,
+  Award,
+  Briefcase,
+  ArrowRight,
+  Megaphone,
+} from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -20,6 +27,14 @@ import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
+
+const DEFAULT_ADMISSION_FORM_LINK =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdGpIoBHOVxUsNOyKLGh6vQuY9_9hQuU890fkz3PzA5ls1LHw/viewform?usp=dialog";
+const DEFAULT_COLLEGE_UPDATES = [
+  "Admissions open for 2026 batch. Apply early to secure your seat.",
+  "New short-term computer skill programs now available.",
+  "Visit the campus office Monday to Saturday for counseling support.",
+];
 
 const Index = () => {
   const handleNavigation = () => {
@@ -33,6 +48,11 @@ const Index = () => {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
   const [aboutUsText, setAboutUsText] = useState("");
+  const [admissionFormLink, setAdmissionFormLink] = useState("");
+  const [collegeUpdates, setCollegeUpdates] = useState<string[]>(
+    DEFAULT_COLLEGE_UPDATES
+  );
+  const [activeUpdateIndex, setActiveUpdateIndex] = useState(0);
 
   useEffect(() => {
     const fetchAboutUs = async () => {
@@ -47,6 +67,57 @@ const Index = () => {
     };
     fetchAboutUs();
   }, []);
+
+  useEffect(() => {
+    const fetchAdmissionFormLink = async () => {
+      const contactDoc = await getDoc(doc(db, "siteContent", "contact"));
+      if (contactDoc.exists()) {
+        const data = contactDoc.data();
+        setAdmissionFormLink(
+          typeof data.admissionFormLink === "string"
+            ? data.admissionFormLink
+            : DEFAULT_ADMISSION_FORM_LINK
+        );
+      } else {
+        setAdmissionFormLink(DEFAULT_ADMISSION_FORM_LINK);
+      }
+    };
+
+    fetchAdmissionFormLink();
+  }, []);
+
+  useEffect(() => {
+    const fetchCollegeUpdates = async () => {
+      const updatesDoc = await getDoc(doc(db, "siteContent", "updates"));
+      if (updatesDoc.exists()) {
+        const data = updatesDoc.data();
+        const updates = Array.isArray(data.items)
+          ? data.items.filter((item) => typeof item === "string" && item.trim())
+          : [];
+        setCollegeUpdates(
+          updates.length > 0 ? updates : DEFAULT_COLLEGE_UPDATES
+        );
+      } else {
+        setCollegeUpdates(DEFAULT_COLLEGE_UPDATES);
+      }
+    };
+
+    fetchCollegeUpdates();
+  }, []);
+
+  useEffect(() => {
+    if (collegeUpdates.length <= 1) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setActiveUpdateIndex(
+        (prevIndex) => (prevIndex + 1) % Math.max(collegeUpdates.length, 1)
+      );
+    }, 3500);
+
+    return () => window.clearInterval(intervalId);
+  }, [collegeUpdates]);
 
   React.useEffect(() => {
     if (!api) {
@@ -174,8 +245,62 @@ const Index = () => {
                   Contact Us
                 </Button>
               </Link>
+              {admissionFormLink && (
+                <a
+                  href={admissionFormLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    size="lg"
+                    className="gradient-secondary hover:scale-105 transition-all duration-300 text-white font-semibold px-8 py-4 text-lg shadow-xl"
+                  >
+                    Apply Now
+                  </Button>
+                </a>
+              )}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-10 bg-gradient-to-b from-blue-50 to-slate-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="border-0 shadow-2xl bg-white/95 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-2xl text-slate-900 flex items-center gap-3">
+                <Megaphone className="w-6 h-6 text-blue-600" />
+                Important Updates
+              </CardTitle>
+              <CardDescription className="text-base text-slate-600">
+                Latest information and notices from the college
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="min-h-20 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 p-6 transition-all duration-500">
+                <p className="text-lg text-slate-800 font-medium text-center">
+                  {collegeUpdates[activeUpdateIndex]}
+                </p>
+              </div>
+              {collegeUpdates.length > 1 && (
+                <div className="mt-5 flex items-center justify-center gap-2">
+                  {collegeUpdates.map((_, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => setActiveUpdateIndex(index)}
+                      className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+                        index === activeUpdateIndex
+                          ? "bg-blue-600 scale-125"
+                          : "bg-blue-200 hover:bg-blue-400"
+                      }`}
+                      aria-label={`Show update ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </section>
 

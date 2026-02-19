@@ -7,9 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
+
+const DEFAULT_ADMISSION_FORM_LINK =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdGpIoBHOVxUsNOyKLGh6vQuY9_9hQuU890fkz3PzA5ls1LHw/viewform?usp=dialog";
 
 const Contact = () => {
   const [contactInfo, setContactInfo] = useState({
@@ -17,6 +21,7 @@ const Contact = () => {
     phone: "",
     email: "",
     hours: "",
+    admissionFormLink: "",
   });
   useEffect(() => {
     const fetchContact = async () => {
@@ -28,6 +33,10 @@ const Contact = () => {
           phone: data.phone || "+91 8289986734",
           email: data.email || "adarshtechuppala@gmail.com",
           hours: data.hours || "Monday - Saturday: 9:00 AM - 5:00 PM",
+          admissionFormLink:
+            typeof data.admissionFormLink === "string"
+              ? data.admissionFormLink
+              : DEFAULT_ADMISSION_FORM_LINK,
         });
       } else {
         setContactInfo({
@@ -35,6 +44,7 @@ const Contact = () => {
           phone: "+91 8289986734",
           email: "adarshtechuppala@gmail.com",
           hours: "Monday - Saturday: 9:00 AM - 5:00 PM",
+          admissionFormLink: DEFAULT_ADMISSION_FORM_LINK,
         });
       }
     };
@@ -181,6 +191,19 @@ const Contact = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
+                  {contactInfo.admissionFormLink && (
+                    <div className="mb-6">
+                      <a
+                        href={contactInfo.admissionFormLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button className="w-full gradient-secondary text-white hover:scale-[1.02] transition-all duration-300">
+                          Apply Online via Google Form
+                        </Button>
+                      </a>
+                    </div>
+                  )}
                   <div className="space-y-4">
                     {[
                       "Visit our institute or call us for course information",

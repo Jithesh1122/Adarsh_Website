@@ -1,17 +1,20 @@
-
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-import Index from "./pages/Index";
-import Courses from "./pages/Courses";
-import CourseDetails from "./pages/CourseDetails";
-import Gallery from "./pages/Gallery";
-import Contact from "./pages/Contact";
-import Admin from "./pages/Admin";
-import NotFound from "./pages/NotFound";
+
+const Index = lazy(() => import("./pages/Index"));
+const Courses = lazy(() => import("./pages/Courses"));
+const CourseDetails = lazy(() => import("./pages/CourseDetails"));
+const Gallery = lazy(() => import("./pages/Gallery"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Admin = lazy(() => import("./pages/Admin"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const AdminRoute = lazy(() => import("./components/AdminRoute"));
 
 const queryClient = new QueryClient();
 
@@ -22,15 +25,26 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/courses/:id" element={<CourseDetails />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Suspense
+            fallback={
+              <div className="min-h-screen flex items-center justify-center text-slate-600">
+                Loading...
+              </div>
+            }
+          >
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/courses/:id" element={<CourseDetails />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route element={<AdminRoute />}>
+                <Route path="/admin" element={<Admin />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </AuthProvider>
     </TooltipProvider>

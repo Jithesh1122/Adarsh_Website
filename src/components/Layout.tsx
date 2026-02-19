@@ -158,7 +158,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </Button>
                 </div>
               ) : (
-                <Link to="/admin" onClick={handleNavigation}>
+                <Link to="/admin/login" onClick={handleNavigation}>
                   <Button
                     variant="outline"
                     size="sm"
@@ -264,7 +264,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </Button>
                 </div>
               ) : (
-                <Link to="/admin" onClick={handleNavigation}>
+                <Link to="/admin/login" onClick={handleNavigation}>
                   <Button
                     variant="outline"
                     size="sm"
